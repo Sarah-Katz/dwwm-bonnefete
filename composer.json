@@ -1,0 +1,22 @@
+{
+  "name": "sarahkatz/bonnefete",
+  "type": "project",
+  "require": {
+    "twbs/bootstrap": "^5.3",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "authors": [
+    {
+      "name": "Sarah-Katz",
+      "email": "Sarahkatz59@gmail.com"
+    },
+    {
+      "name": "Samuelle-Dénommé",
+      "email": "samuel-denomme@hotmail.com"
+    },
+    {
+      "name": "Othman-Douz",
+      "email": "othman.douz07@gmail.com"
+    }
+  ]
+}
