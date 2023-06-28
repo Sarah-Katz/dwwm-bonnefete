@@ -57,6 +57,33 @@ class UserModel {
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\User");
     }
 
+    public function editUser($user, $userId) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET email = :email, username = :username WHERE ID_user = :id");
+            $query->execute([
+                'email' => $user['email'],
+                'username' => $user['username'],
+                'id' => $userId
+            ]);
+            return "Bien enregistré";
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
+    public function deleteUser($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET is_active = 0, username = 'Utilisateur désactivé' WHERE ID_user = :id");
+            $query->execute([
+                'id' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
     public function login($user) {
         $email = $user['email'];
         $password = $user['password'];

@@ -65,4 +65,20 @@ class UserController {
         $user = $this->userModel->getUserById($userId);
         require_once 'Views/user/profile.php';
     }
+
+    public function getEdit($userId) {
+        $user = $this->userModel->getUserById($userId);
+        require_once 'Views/user/edit.php';
+    }
+
+    public function postEdit() {
+        $user = $_POST;
+        $this->userModel->editUser($user, $user['ID_user']);
+        $this->getProfile($user['ID_user']);
+    }
+
+    public function getDelete($id) {
+        $this->userModel->deleteUser($id);
+        header('Location: ../login');
+    }
 }
