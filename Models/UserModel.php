@@ -33,7 +33,7 @@ class UserModel {
         }
     }
 
-    public function login(array $user) {
+    public function login($user) {
         $email = $user['email'];
         $password = $user['password'];
 
@@ -45,9 +45,11 @@ class UserModel {
             $query->execute(['email' => $email]);
             $userCo = $query->fetch(PDO::FETCH_ASSOC);
             $_SESSION['email'] = $email;
-            $_SESSION['prenom'] = $userCo['prenom'];
-            $_SESSION['nom'] = $userCo['nom'];
             $_SESSION['password'] = $password;
+            $_SESSION['username'] = $userCo['username'];
+            return true;
+        } else {
+            return false;
         }
     }
 }

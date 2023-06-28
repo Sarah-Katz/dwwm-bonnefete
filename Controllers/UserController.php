@@ -30,10 +30,18 @@ class UserController {
 
     public function postLogin() {
         $user = $_POST;
+        $check = $this->userModel->login($user);
+        if ($check) {
+            // Rediriger vers le fil des posts
+            echo 'Connecté';
+        } else {
+            // Rediriger vers le login avec erreur
+            header('Location: ../user/login');
+        }
     }
 
     public function getLogout() {
         session_destroy();
-        header('Location: ../character/index');
+        header('Location: ../user/login');
     }
 }
