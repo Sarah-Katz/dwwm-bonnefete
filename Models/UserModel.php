@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Models;
+
+require_once  'Database.php';
+
+use App\Database;
+use PDO;
+
+class UserModel {
+    private $connection;
+
+    public function __construct() {
+        $this->connection = new Database();
+    }
+
+    public function createUser($user) {
+        var_dump($user);
+        $password = password_hash($user['password'], PASSWORD_DEFAULT);
+        var_dump($password);
+        try {
+            $query = $this->connection->getPdo()->prepare("INSERT INTO users (email, password, username, register_date) VALUES (:email, :password, :username, :register_date)");
+            $query->execute([
+                'email' => $user['email'],
+                'password' => $password,
+                'username' => $user['name'],
+                'register_date' => date('y-m-d h:i:s')
+            ]);
+            return "Bien enregistré";
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
+    public function login(array $user) {
+        $email = $user['email'];
+        $password = $user['password'];
+
+        $query = $this->connection->getPdo()->prepare("SELECT password FROM users WHERE email = :email");
+        $query->execute(['email' => $email]);
+        $passBdd = $query->fetch();
+        if (password_verify($password, $passBdd['password'])) {
+            $query = $this->connection->getPdo()->prepare("SELECT username FROM users WHERE email = :email");
+            $query->execute(['email' => $email]);
+            $userCo = $query->fetch(PDO::FETCH_ASSOC);
+            $_SESSION['email'] = $email;
+            $_SESSION['prenom'] = $userCo['prenom'];
+            $_SESSION['nom'] = $userCo['nom'];
+            $_SESSION['password'] = $password;
+        }
+    }
+}
