@@ -2,7 +2,6 @@
   "name": "sarahkatz/bonnefete",
   "type": "project",
   "require": {
-    "twbs/bootstrap": "^5.3",
     "vlucas/phpdotenv": "^5.5"
   },
   "authors": [
