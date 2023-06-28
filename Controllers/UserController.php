@@ -44,4 +44,19 @@ class UserController {
         session_destroy();
         header('Location: ../user/login');
     }
+
+    public function postSearch() {
+        $searchTerm = $_POST['searchTerm'];
+        var_dump($searchTerm);
+        if ($searchTerm) {
+            // Recherche nom
+        } else {
+            $users = $this->userModel->getUsers();
+            $this->getSearch($users);
+        }
+    }
+
+    public function getSearch($users) {
+        require_once 'Views/user/search.php';
+    }
 }
