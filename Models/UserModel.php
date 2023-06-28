@@ -3,6 +3,7 @@
 namespace App\Models;
 
 require_once  'Database.php';
+require_once 'Models/User.php';
 
 use App\Database;
 use PDO;
@@ -31,6 +32,12 @@ class UserModel {
             echo $e->getMessage();
             return " une erreur est survenue";
         }
+    }
+
+    public function getUsers() {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_user, username, email, password, register_date, is_active FROM users");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\User");
     }
 
     public function login($user) {
