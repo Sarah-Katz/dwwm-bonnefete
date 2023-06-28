@@ -30,7 +30,7 @@
         <input class="form-check-input" type="checkbox" name="cgu" id="cgu" required>
         <label class="form-check-label" for="cgu">J'accepte les <a href="http://">C.G.U</a></label>
     </div>
-    <input class="btn btn-primary" type="submit" value="S'inscrire">
+    <input class="button is-primary" type="submit" value="S'inscrire">
 </form>
 
 <?php require_once 'Views/footer.php'; ?>
