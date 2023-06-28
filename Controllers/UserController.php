@@ -49,7 +49,8 @@ class UserController {
         $searchTerm = $_POST['searchTerm'];
         var_dump($searchTerm);
         if ($searchTerm) {
-            // Recherche nom
+            $users = $this->userModel->getUsersByUsername($searchTerm);
+            $this->getSearch($users);
         } else {
             $users = $this->userModel->getUsers();
             $this->getSearch($users);
@@ -58,5 +59,10 @@ class UserController {
 
     public function getSearch($users) {
         require_once 'Views/user/search.php';
+    }
+
+    public function getProfile($userId) {
+        $user = $this->userModel->getUserById($userId);
+        require_once 'Views/user/profile.php';
     }
 }

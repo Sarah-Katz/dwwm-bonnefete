@@ -3,16 +3,16 @@
 namespace App\Models;
 
 class User {
-    protected int $id;
+    protected int $ID_user;
     protected string $email;
     protected string $username;
     protected string $password;
-    protected $createdAt;
-    protected int $role;
-    protected bool $isActive;
+    protected $register_date;
+    protected int $ID_role;
+    protected bool $is_active;
 
-    public function getId() {
-        return $this->id;
+    public function getID_user() {
+        return $this->ID_user;
     }
 
     public function getEmail() {
@@ -27,16 +27,16 @@ class User {
         return $this->password;
     }
 
-    public function getCreatedAt() {
-        return $this->createdAt;
+    public function getregister_date() {
+        return $this->register_date;
     }
 
-    public function getRole() {
-        return $this->role;
+    public function getID_role() {
+        return $this->ID_role;
     }
 
-    public function isActive() {
-        return $this->isActive;
+    public function is_active() {
+        return $this->is_active;
     }
 
     public function setEmail($email) {
@@ -51,11 +51,11 @@ class User {
         $this->password = $password;
     }
 
-    public function setRole($role) {
-        $this->role = $role;
+    public function setID_role($ID_role) {
+        $this->ID_role = $ID_role;
     }
 
     public function setActive($bool) {
-        $this->isActive = $bool;
+        $this->is_active = $bool;
     }
 }

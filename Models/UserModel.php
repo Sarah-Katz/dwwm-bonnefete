@@ -35,8 +35,25 @@ class UserModel {
     }
 
     public function getUsers() {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_user, username, email, password, register_date, is_active FROM users");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_user, ID_role, username, email, register_date, is_active FROM users");
         $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\User");
+    }
+
+    public function getUserById($id) {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_user, ID_role, username, email, register_date, is_active FROM users WHERE ID_user = :id");
+        $query->execute([
+            'id' => $id
+        ]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "App\Models\User");
+        return $query->fetch();
+    }
+
+    public function getUsersByUsername($username) {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_user, ID_role, username, email, register_date, is_active FROM users WHERE username LIKE :username");
+        $query->execute([
+            'username' => '%' . $username . '%'
+        ]);
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\User");
     }
 
