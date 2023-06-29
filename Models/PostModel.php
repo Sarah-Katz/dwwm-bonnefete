@@ -29,4 +29,28 @@ class PostModel {
             return " une erreur est survenue";
         }
     }
+
+    public function getPosts() {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts");
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
+    }
+
+    public function getPostById($id) {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_post = :ID_post");
+        $query->execute([
+            ':ID_post' => $id
+        ]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "App\Models\Post");
+        return $query->fetch();
+    }
+
+    public function getPostsByUserId($id) {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_user = :ID_user");
+        $query->execute([
+            ':ID_user' => $id
+        ]);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
+    }
 }
