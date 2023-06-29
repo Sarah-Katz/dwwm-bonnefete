@@ -6,12 +6,15 @@ require_once 'Models/PostModel.php';
 
 use App\Models\PostModel;
 
-class UserController {
-    protected $userModel;
+class PostController {
+    protected $postModel;
 
     public function __construct() {
-        $this->userModel = new PostModel();
+        $this->postModel = new PostModel();
     }
 
-    
+    public function getFeed() {
+        $posts = $this->postModel->getPosts();
+        require_once 'Views/post/feed.php';
+    }
 }

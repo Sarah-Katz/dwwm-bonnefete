@@ -3,6 +3,7 @@
 namespace App;
 
 require_once 'Controllers/UserController.php';
+require_once 'Controllers/PostController.php';
 
 class Router {
     protected $requestUri;
