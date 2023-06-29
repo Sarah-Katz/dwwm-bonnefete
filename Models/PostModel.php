@@ -53,4 +53,29 @@ class PostModel {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
+
+    public function updatePost($id, $post) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE posts SET message = :message WHERE ID_post = :ID_post");
+            $query->execute([
+                ':ID_post' => $id,
+                ':message' => $post['message']
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
+    public function deletePost($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("DELETE FROM posts WHERE ID_post = :ID_post");
+            $query->execute([
+                ':ID_post' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
 }
