@@ -14,6 +14,10 @@
   background-color: var(--orange);
 }
 
+.blue-text {
+  color: var(--blue) !important;
+}
+
 .orange-text {
   color: var(--orange) !important;
 }

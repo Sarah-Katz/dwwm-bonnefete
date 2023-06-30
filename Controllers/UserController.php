@@ -25,18 +25,27 @@ class UserController {
     }
 
     public function getLogin() {
+        $error = "";
         require_once 'Views/user/login.php';
     }
 
     public function postLogin() {
         $user = $_POST;
         $check = $this->userModel->login($user);
-        if ($check) {
+        if ($check === "true") {
             // Rediriger vers le fil des posts
-            echo 'Connecté';
+            header('Location:../post/feed');
+        } elseif ($check === "email") {
+            // Rediriger vers le login avec erreur
+            $error = "Aucun compte trouvé avec cet email";
+            require_once 'Views/user/login.php';
+        } elseif($check === "inactive") {
+            $error = "Votre compte est désactivé, merci de vous réinscrire avec cet email";
+            require_once 'Views/user/login.php';
         } else {
             // Rediriger vers le login avec erreur
-            header('Location: ../user/login');
+            $error = "Erreur d'authentification";
+            require_once 'Views/user/login.php';
         }
     }
 

@@ -87,23 +87,31 @@ class UserModel {
     public function login($user) {
         $email = $user['email'];
         $password = $user['password'];
-
-        $query = $this->connection->getPdo()->prepare("SELECT password FROM users WHERE email = :email");
+        // Vérification du mot de passe
+        $query = $this->connection->getPdo()->prepare("SELECT password, is_active FROM users WHERE email = :email");
         $query->execute(['email' => $email]);
         $passBdd = $query->fetch();
-        if (password_verify($password, $passBdd['password'])) {
-            $query = $this->connection->getPdo()->prepare("SELECT username, ID_user, ID_role FROM users WHERE email = :email");
-            $query->execute(['email' => $email]);
-            $userCo = $query->fetch(PDO::FETCH_ASSOC);
-            $_SESSION['email'] = $email;
-            $_SESSION['password'] = $password;
-            $_SESSION['username'] = $userCo['username'];
-            $_SESSION['ID_user'] = $userCo['ID_user'];
-            $_SESSION['ID_role'] = $userCo['ID_role'];
-            return true;
+        // Verification de l'inscription de cet email
+        if (!$passBdd) {
+            $res = "email";
+        } elseif ($passBdd['is_active'] == 0) {
+            $res = "inactive";
         } else {
-            return false;
+            if (password_verify($password, $passBdd['password'])) {
+                $query = $this->connection->getPdo()->prepare("SELECT username, ID_user, ID_role FROM users WHERE email = :email");
+                $query->execute(['email' => $email]);
+                $userCo = $query->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                $_SESSION['username'] = $userCo['username'];
+                $_SESSION['ID_user'] = $userCo['ID_user'];
+                $_SESSION['ID_role'] = $userCo['ID_role'];
+                $res =  "true";
+            } else {
+                $res = "false";
+            }
         }
+        return $res;
     }
 
     public function getRecentPosts($id) {
