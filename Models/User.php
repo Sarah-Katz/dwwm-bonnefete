@@ -20,7 +20,7 @@ class User {
     }
 
     public function getUsername() {
-        return ucfirst($this->username);
+        return ucfirst(strtolower($this->username));
     }
 
     public function getPassword() {
