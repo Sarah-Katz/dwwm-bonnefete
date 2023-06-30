@@ -22,15 +22,15 @@
     <div class="navbar-end">
         <div class="navbar-item">
             <p class="has-text-white">Bonjour, <span class="orange-text has-text-weight-bold"><?= ucfirst(strtolower($_SESSION['username'])) ?></span>
-                </p>
-                    <div class="buttons">
-                        <a href="<?php echo LOCALPATH ?>user/profile/<?php echo $_SESSION['ID_user'] ?>" class="button blue-background button-no-border is-rounded">
-                            <i class="fa-2xl fa-solid fa-user" style="color: white;"></i>
-                        </a>
-                        <a class="button is-rounded button-no-border">
-                            <i class="fa-2xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
-                        </a>
-                    </div>
+            </p>
+            <div class="buttons">
+                <a href="<?php echo LOCALPATH ?>user/profile/<?php echo $_SESSION['ID_user'] ?>" class="button blue-background button-no-border is-rounded">
+                    <i class="fa-xl fa-solid fa-user" style="color: white;"></i>
+                </a>
+                <a href="<?php echo LOCALPATH ?>user/logout" class="button is-rounded button-no-border">
+                    <i class="fa-xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
