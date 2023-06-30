@@ -47,12 +47,12 @@ class UserController {
 
     public function postSearch() {
         $searchTerm = $_POST['searchTerm'];
-        var_dump($searchTerm);
         if ($searchTerm) {
             $users = $this->userModel->getUsersByUsername($searchTerm);
             $this->getSearch($users);
         } else {
             $users = $this->userModel->getUsers();
+            $searchTerm = ' ';
             $this->getSearch($users);
         }
     }

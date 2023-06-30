@@ -17,4 +17,9 @@ class PostController {
         $posts = $this->postModel->getPosts();
         require_once 'Views/post/feed.php';
     }
+
+    public function getDeletePost($id) {
+        $this->postModel->deletePost($id);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
 }

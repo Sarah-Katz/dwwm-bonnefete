@@ -24,7 +24,7 @@ class UserModel {
             $query->execute([
                 'email' => $user['email'],
                 'password' => $password,
-                'username' => $user['name'],
+                'username' => strtoupper($user['name']),
                 'register_date' => date('y-m-d h:i:s')
             ]);
             return "Bien enregistré";
@@ -92,15 +92,25 @@ class UserModel {
         $query->execute(['email' => $email]);
         $passBdd = $query->fetch();
         if (password_verify($password, $passBdd['password'])) {
-            $query = $this->connection->getPdo()->prepare("SELECT username FROM users WHERE email = :email");
+            $query = $this->connection->getPdo()->prepare("SELECT username, ID_user, ID_role FROM users WHERE email = :email");
             $query->execute(['email' => $email]);
             $userCo = $query->fetch(PDO::FETCH_ASSOC);
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
             $_SESSION['username'] = $userCo['username'];
+            $_SESSION['ID_user'] = $userCo['ID_user'];
+            $_SESSION['ID_role'] = $userCo['ID_role'];
             return true;
         } else {
             return false;
         }
+    }
+
+    public function getRecentPosts($id) {
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, message, post_date FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC LIMIT 2");
+        $query->execute([
+            'ID_user' => $id
+        ]);
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
 }

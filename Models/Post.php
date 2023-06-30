@@ -17,7 +17,9 @@ class Post {
     }
 
     public function getPost_date() {
-        return $this->post_date;
+        $date = strtotime($this->post_date);
+        $date = date('d/m/Y', $date);
+        return $date;
     }
 
     public function getMessage() {
