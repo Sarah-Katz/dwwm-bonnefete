@@ -81,4 +81,8 @@ class UserController {
         $this->userModel->deleteUser($id);
         header('Location: ../login');
     }
+
+    public function getCgu() {
+        require_once 'Views/cgu.php';
+    }
 }
