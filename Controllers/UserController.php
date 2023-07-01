@@ -124,12 +124,12 @@ class UserController {
         }
     }
 
-    public function postPasswordEdit($userId) {
+    public function postPasswordEdit() {
         $user = $_POST;
-        var_dump($user);
+        $userId = $user['ID_user'];
         $check = $this->userModel->editPassword($user, $userId);
         if ($check == "success") {
-            header('Location:../profile/' . $userId);
+            header('Location:../user/profile/' . $userId);
         } elseif ($check == "passwordConfirm") {
             $error = "Les deux mots de passe ne sont pas identiques";
             $user = $this->userModel->getUserById($userId);
@@ -178,5 +178,11 @@ class UserController {
     public function getDemoteMod($id) {
         $this->userModel->demoteModerator($id);
         header('Location:../profile/' . $id);
+    }
+
+    public function postConfirm() {
+        $action = $_POST['action'];
+        $post = $_POST;
+        require_once 'Views/user/confirm.php';
     }
 }

@@ -27,9 +27,12 @@
                 <a href="<?php echo LOCALPATH ?>user/profile/<?php echo $_SESSION['ID_user'] ?>" class="button blue-background button-no-border is-rounded">
                     <i class="fa-xl fa-solid fa-user" style="color: white;"></i>
                 </a>
-                <a href="<?php echo LOCALPATH ?>user/logout" class="button is-rounded button-no-border">
-                    <i class="fa-xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
-                </a>
+                <form action="<?php echo LOCALPATH ?>user/confirm" method="post">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" href="" class="button is-rounded button-no-border">
+                        <i class="fa-xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

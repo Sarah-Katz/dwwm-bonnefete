@@ -26,7 +26,7 @@ class PostController {
 
     public function getDeletePost($id) {
         $this->postModel->deletePost($id);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ../feed');
     }
 
     public function getEdit($id) {

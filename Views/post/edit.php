@@ -4,7 +4,7 @@ require_once 'Views/navbar.php';
 ?>
 
 <div class="column is-4 is-offset-4 mt-2 mb-2">
-    <form class="card" action="../edit" method="post">
+    <form class="card" action="<?= LOCALPATH ?>user/confirm" method="post">
         <div class="card-content">
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
@@ -15,6 +15,7 @@ require_once 'Views/navbar.php';
                 </p>
                 <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
                 <input type="hidden" name="id" value="<?= $post->getID_post() ?>">
+                <input type="hidden" name="action" value="editPost">
                 <div class="control">
                     <input type="submit" class="button blue-background has-text-white" value="Modifier"></input>
                 </div>
