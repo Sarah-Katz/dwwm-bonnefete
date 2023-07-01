@@ -3,14 +3,18 @@
 namespace App\Controllers;
 
 require_once 'Models/UserModel.php';
+require_once 'Models/PostModel.php';
 
 use App\Models\UserModel;
+use App\Models\PostModel;
 
 class UserController {
     protected $userModel;
+    protected $postModel;
 
     public function __construct() {
         $this->userModel = new UserModel();
+        $this->postModel = new PostModel();
     }
 
     public function getRegister() {
@@ -36,7 +40,7 @@ class UserController {
         } elseif ($check == "passwordConfirm") {
             $error = "Les deux mots de passe ne sont pas identiques";
             require_once 'Views/user/register.php';
-        } elseif ($check == "Eempty" || $check == "Pempty" || $check == "ECempty" || $check == "PCempty" || $check == "Nempty") {
+        } elseif ($check == "empty") {
             $error = "Veuillez remplir tous les champs";
             require_once 'Views/user/register.php';
         }
@@ -90,7 +94,55 @@ class UserController {
 
     public function getProfile($userId) {
         $user = $this->userModel->getUserById($userId);
+        $posts = $this->postModel->getPostsByUserId($userId);
         require_once 'Views/user/profile.php';
+    }
+
+    public function getProfileEdit($userId) {
+        $user = $this->userModel->getUserById($userId);
+        $error = "";
+        require_once 'Views/user/profileEdit.php';
+    }
+
+    public function postProfileEdit($userId) {
+        $user = $_POST;
+        $check = $this->userModel->editUser($user, $userId);
+        if ($check == "success") {
+            header('Location:../profile/' . $userId);
+        } elseif ($check == "emailConfirm") {
+            $error = "Les deux emails ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "emailUsed") {
+            $error = "Email déjà enregistré";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
+    }
+
+    public function postPasswordEdit($userId) {
+        $user = $_POST;
+        var_dump($user);
+        $check = $this->userModel->editPassword($user, $userId);
+        if ($check == "success") {
+            header('Location:../profile/' . $userId);
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "noVerify") {
+            $error = "Votre ancien mot de passe est incorrect";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
     }
 
     public function getEdit($userId) {
@@ -106,7 +158,12 @@ class UserController {
 
     public function getDelete($id) {
         $this->userModel->deleteUser($id);
-        header('Location: ../login');
+        if ($_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) {
+            header('Location:../profile/' . $id);
+        } elseif ($_SESSION['ID_user'] == $id || $_SESSION['ID_role'] == 1) {
+            session_destroy();
+            header('Location: ../login');
+        }
     }
 
     public function getCgu() {
