@@ -14,7 +14,7 @@ require_once 'Views/navbar.php';
         <div class="notification alert-danger has-text-centered has-text-danger"> <?= $error ?> </div>
     <?php endif ?>
 
-    <form class="card" action="../profileEdit/<?= $user->getID_user() ?>" method="post">
+    <form class="card" action="../confirm" method="post">
         <div class="card-content">
             <div class="field">
                 <label class="label" for="email">Email:</label>
@@ -46,13 +46,16 @@ require_once 'Views/navbar.php';
                 </p>
             </div>
 
+            <input type="hidden" name="action" value="editUser">
+            <input type="hidden" name="ID_user" value="<?= $user->getID_user() ?>">
+
             <div class="buttons is-centered">
-                <input class="button is-success" type="submit" value="Confirmer les changements">
+                <input class="button  blue-background has-text-white" type="submit" value="Confirmer les changements">
             </div>
         </div>
     </form>
 
-    <form class="card mt-2" action="../passwordEdit/<?= $user->getID_user() ?>" method="post">
+    <form class="card mt-2" action="../confirm" method="post">
         <div class="card-content">
 
             <div class="field">
@@ -85,8 +88,11 @@ require_once 'Views/navbar.php';
                 </p>
             </div>
 
+            <input type="hidden" name="ID_user" value="<?= $user->getID_user() ?>">
+            <input type="hidden" name="action" value="editPassword">
+
             <div class="buttons is-centered">
-                <input class="button is-success" type="submit" value="Changer le mot de passe">
+                <input class="button blue-background has-text-white" type="submit" value="Changer le mot de passe">
             </div>
 
         </div>
@@ -109,7 +115,11 @@ require_once 'Views/navbar.php';
 <!-- Suppression -->
 <?php if (($_SESSION['ID_user'] == $user->getID_user() || $_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) && ($user->getID_role() != 3)) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
-        <a href="<?php echo LOCALPATH ?>user/delete/<?= $user->getID_user() ?>" class="button is-danger">Désactiver le profil</a>
+        <form action="<?= LOCALPATH ?>user/confirm" method="post">
+            <input type="hidden" name="ID_user" value="<?= $user->getID_user() ?>">
+            <input type="hidden" name="action" value="deleteUser">
+            <button type="submit" class="button is-danger has-text-weight-bold">Désactiver le profil</button>
+        </form>
     </div>
 <?php endif; ?>
 

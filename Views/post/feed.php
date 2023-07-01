@@ -39,9 +39,13 @@ require_once 'Views/navbar.php'; ?>
                 <div class="card-content">
                     <!-- Condition de propirétaire ou modérateur ou super admin -->
                     <?php if ($_SESSION['ID_user'] == $post->getID_user() || $_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) : ?>
-                        <div class="is-pulled-right">
-                            <a href="<?php echo LOCALPATH ?>post/edit/<?= $post->getID_post() ?>"><i class="ml-1 fas fa-xl fa-pen" style="color: var(--orange);"></i></a>
-                            <a href="<?php echo LOCALPATH ?>post/deletepost/<?= $post->getID_post() ?>"><i class="ml-1 fas fa-xl fa-trash" style="color: red;"></i></a>
+                        <div class="buttons is-pulled-right">
+                            <a class="button is-ghost m-0 p-1" href="<?php echo LOCALPATH ?>post/edit/<?= $post->getID_post() ?>"><i class="fas fa-xl fa-pen" style="color: var(--orange);"></i></a>
+                            <form action="<?= LOCALPATH ?>user/confirm" method="post">
+                                <input type="hidden" name="action" value="deletePost">
+                                <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
+                                <button class="button is-ghost m-0 p-1"><i class=" fas fa-xl fa-trash" style="color: red;"></i></button>
+                            </form>
                         </div>
                     <?php endif; ?>
                     <div class="content is-large has-border">
