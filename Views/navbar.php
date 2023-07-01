@@ -11,7 +11,7 @@
     <div class="column is-4">
         <form class="form" action="<?php echo LOCALPATH ?>user/search" method="post">
             <div class="control has-icons-right">
-                <input class="input" type="search" name="searchTerm" placeholder="Recherchez un utilisateur">
+                <input class="input is-rounded" type="search" name="searchTerm" placeholder="Recherchez un utilisateur">
                 <div class="icon is-small is-right">
                     <i class="fas fa-search"></i>
                 </div>

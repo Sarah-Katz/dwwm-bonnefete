@@ -3,9 +3,13 @@
 <div class="column is-4 is-offset-4">
 
     <h1 class="title blue-text has-text-centered">Connectez-vous !</h1>
-    <?php if ($error) : ?>
+    <?php if ($error === "success") : ?>
+        <div class="notification alert-success has-text-centered has-text-success"> Compte créé avec succès, merci de vous connecter </div>
+    <?php elseif ($error === "reactivated") : ?>
+        <div class="notification alert-success has-text-centered has-text-success"> Compte réactivé avec succès, merci de vous connecter </div>
+    <?php elseif ($error) : ?>
         <div class="notification alert-danger has-text-centered has-text-danger"> <?= $error ?> </div>
-    <?php endif ?>
+    <?php endif; ?>
     <form class="card" action="../user/login" method="post">
         <div class="card-content">
             <div class="field">
