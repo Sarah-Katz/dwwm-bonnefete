@@ -14,14 +14,32 @@ class UserController {
     }
 
     public function getRegister() {
+        $error = "";
         require_once 'Views/user/register.php';
     }
 
     public function postRegister() {
         $user = $_POST;
-        $message = $this->userModel->createUser($user);
-        echo $message;
-        echo '<a href="../user/login>Se connecter</a>"';
+        $check = $this->userModel->createUser($user);
+        if ($check == "success") {
+            $error = "success";
+            require_once 'Views/user/login.php';
+        } elseif ($check == "reactivated") {
+            $error = "reactivated";
+            require_once 'Views/user/login.php';
+        } elseif ($check == "doubleEmail") {
+            $error = "Email déjà enregistré";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "emailConfirm") {
+            $error = "Les deux emails ne sont pas identiques";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "Eempty" || $check == "Pempty" || $check == "ECempty" || $check == "PCempty" || $check == "Nempty") {
+            $error = "Veuillez remplir tous les champs";
+            require_once 'Views/user/register.php';
+        }
     }
 
     public function getLogin() {
@@ -39,7 +57,7 @@ class UserController {
             // Rediriger vers le login avec erreur
             $error = "Aucun compte trouvé avec cet email";
             require_once 'Views/user/login.php';
-        } elseif($check === "inactive") {
+        } elseif ($check === "inactive") {
             $error = "Votre compte est désactivé, merci de vous réinscrire avec cet email";
             require_once 'Views/user/login.php';
         } else {
