@@ -202,4 +202,28 @@ class UserModel {
         ]);
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
+
+    public function makeModerator($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET ID_role = 2 WHERE ID_user = :ID_user");
+            $query->execute([
+                'ID_user' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
+    public function demoteModerator($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET ID_role = 1 WHERE ID_user = :ID_user");
+            $query->execute([
+                'ID_user' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
 }

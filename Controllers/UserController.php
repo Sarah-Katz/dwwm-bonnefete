@@ -169,4 +169,14 @@ class UserController {
     public function getCgu() {
         require_once 'Views/cgu.php';
     }
+
+    public function getMakeMod($id) {
+        $this->userModel->makeModerator($id);
+        header('Location:../profile/' . $id);
+    }
+
+    public function getDemoteMod($id) {
+        $this->userModel->demoteModerator($id);
+        header('Location:../profile/' . $id);
+    }
 }

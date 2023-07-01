@@ -94,11 +94,19 @@ require_once 'Views/navbar.php';
 </div>
 
 <!-- Boutons conditionels de promotion et de suppression de profil -->
+<!-- Promotion -->
 <?php if ($user->getID_role() == 1) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
-        <a href="" class="button is-warning">Promouvoir en modérateur</a>
+        <a href="../makeMod/<?= $user->getID_user() ?>" class="button is-warning">Promouvoir en modérateur</a>
     </div>
 <?php endif; ?>
+<!-- Destitution -->
+<?php if ($user->getID_role() == 2) : ?>
+    <div class="column is-2 is-offset-10 has-text-weight-bold">
+        <a href="../demoteMod/<?= $user->getID_user() ?>" class="button is-warning">Destituer le modérateur</a>
+    </div>
+<?php endif; ?>
+<!-- Suppression -->
 <?php if (($_SESSION['ID_user'] == $user->getID_user() || $_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) && ($user->getID_role() != 3)) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
         <a href="<?php echo LOCALPATH ?>user/delete/<?= $user->getID_user() ?>" class="button is-danger">Désactiver le profil</a>

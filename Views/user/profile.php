@@ -6,24 +6,29 @@ require_once 'Views/navbar.php';
     <div class="column is-2 is-offset-1 mt-6" id="user-infos">
         <div class="box blue-background">
             <div class="card has-text-weight-bold">
-                <div class="card-content">
+                <div class="card-content p-2">
                     <h4 class="card-title">
                         <span class="card-title-text">Nom d'utilisateur:</span>
                     </h4>
                     <span><?= $user->getUsername() ?></span>
                 </div>
-                <div class="card-content">
+                <div class="card-content p-2">
                     <h4 class="card-title">
                         <span class="card-title-text">Adresse Email:</span>
                     </h4>
                     <span><?= $user->getEmail() ?></span>
                 </div>
-                <div class="card-content">
+                <div class="card-content p-2">
                     <h4 class="card-title">
                         <span class="card-title-text">Date d'inscription:</span>
                     </h4>
                     <span><?= $user->getRegister_date() ?></span>
                 </div>
+                <?php if ($user->getID_role() == 2) : ?>
+                    <div class="card-content has-text-info p-2">
+                        <span>Cet utilisateur est modérateur</span>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
