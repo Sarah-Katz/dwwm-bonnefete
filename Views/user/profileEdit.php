@@ -95,13 +95,13 @@ require_once 'Views/navbar.php';
 
 <!-- Boutons conditionels de promotion et de suppression de profil -->
 <!-- Promotion -->
-<?php if ($user->getID_role() == 1) : ?>
+<?php if ($user->getID_role() == 1 && $_SESSION['ID_role'] != 1) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
         <a href="../makeMod/<?= $user->getID_user() ?>" class="button is-warning">Promouvoir en modérateur</a>
     </div>
 <?php endif; ?>
 <!-- Destitution -->
-<?php if ($user->getID_role() == 2) : ?>
+<?php if ($user->getID_role() == 2 && $_SESSION['ID_role'] == 3) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
         <a href="../demoteMod/<?= $user->getID_user() ?>" class="button is-warning">Destituer le modérateur</a>
     </div>
