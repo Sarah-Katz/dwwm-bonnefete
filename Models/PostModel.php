@@ -19,7 +19,7 @@ class PostModel {
         try {
             $query = $this->connection->getPdo()->prepare("INSERT INTO posts (ID_user, post_date, message) VALUES (:ID_user, :post_date, :message)");
             $query->execute(array(
-                ':ID_user' => $post['user_id'],
+                ':ID_user' => $post['ID_user'],
                 ':post_date' => date('y-m-d h:i:s'),
                 ':message' => $post['message']
             ));
@@ -31,7 +31,7 @@ class PostModel {
     }
 
     public function getPosts() {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts ORDER BY post_date DESC");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
