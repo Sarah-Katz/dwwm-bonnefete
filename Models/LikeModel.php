@@ -31,7 +31,7 @@ class LikeModel {
     }
 
     public function getLikes() {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_like, ID_user, ID_post, ID_comment, message FROM likes");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_like, ID_user, ID_post, ID_comment FROM likes");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Like");
     }
