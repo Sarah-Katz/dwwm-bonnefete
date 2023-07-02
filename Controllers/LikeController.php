@@ -25,7 +25,7 @@ class LikeController {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
-    public function postshowLikes() {
+    public function postShowLikes() {
         $data = $_POST;
         require_once 'Views/like/list.php';
     }

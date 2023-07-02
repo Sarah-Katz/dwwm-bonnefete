@@ -39,7 +39,7 @@ require_once 'Views/navbar.php';
     </div>
 </div>
 
-<!-- Bouton conditionel de modificatiopn de profil -->
+<!-- Bouton conditionnel de modification de profil -->
 <?php if ($_SESSION['ID_user'] == $user->getID_user() || $_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
         <a href="<?php echo LOCALPATH ?>user/profileEdit/<?= $user->getID_user() ?>" class="button orange-background"> <i class="fa-solid fa-gear mr-1"></i> Modifier le profil</a>
