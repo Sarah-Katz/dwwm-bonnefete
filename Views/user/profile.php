@@ -74,8 +74,20 @@ require_once 'Views/navbar.php';
                         <?= $post->getMessage() ?>
                     </div>
                     <!-- Gestion des likes -->
-                    <span class="blue-text is-pulled-left p-1 m-0 has-text-weight-bold"><?= $likesNumber ?></span>
-                    <!-- Vérification, le post est il liké par l'utilisateur connecté ? -->
+                    <?php if ($likes) : ?>
+                        <form action="<?= LOCALPATH ?>like/showLikes" method="post">
+                            <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
+                            <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
+                            <button class="button is-ghost is-pulled-left m-0 p-1" type="submit">
+                                <span class="blue-text has-text-weight-bold"><?= $likesNumber ?></span>
+                            </button>
+                        </form>
+                    <?php else : ?>
+                        <button class="button is-ghost is-pulled-left m-0 p-1">
+                            <span class="blue-text has-text-weight-bold is-pulled-left"><?= $likesNumber ?></span>
+                        </button>
+                    <?php endif; ?>
+                    <!-- Vérification, le post est-il liké par l'utilisateur connecté ? -->
                     <?php $hasLiked = false; ?>
                     <?php foreach ($likes as $like) : ?>
                         <?php if ($_SESSION['ID_user'] == $like->getID_user()) : ?>

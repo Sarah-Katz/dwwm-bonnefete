@@ -24,4 +24,9 @@ class LikeController {
         $this->likeModel->deleteLike($id);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
+
+    public function postshowLikes() {
+        $data = $_POST;
+        require_once 'Views/like/list.php';
+    }
 }
