@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-require_once  'Database.php';
+require_once 'Database.php';
 require_once 'Models/Post.php';
 
 use App\Database;
