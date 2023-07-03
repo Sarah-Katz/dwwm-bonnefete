@@ -3,7 +3,7 @@ require_once 'Views/header.php';
 require_once 'Views/navbar.php';
 ?>
 
-<!-- Confirmation de deconnection -->
+<!-- Confirmation de déconnection -->
 <?php if ($action == 'logout') : ?>
     <div class="column is-4 is-offset-4">
         <div class="box">
@@ -56,6 +56,32 @@ require_once 'Views/navbar.php';
             </div>
         </form>
     </div>
+    </div>
+    <!-- Confirmation de modification de commentaire -->
+<?php elseif ($action == 'editComment') : ?>
+    <div class="column is-4 is-offset-4">
+        <form class="card" action="<?= LOCALPATH ?>comment/edit" method="post">
+            <div class="card-content">
+                <p class="title has-text-centered is-4">
+                    Confirmez vous vouloir modifier le commentaire ?
+                </p>
+                <input type="hidden" name="message" id="message" value="<?= $post['message'] ?>">
+                <input type="hidden" name="id" value="<?= $post['id'] ?>">
+                <div class="buttons is-centered">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                        <span class="icon"> <i class="fa-solid fa-left-long"></i></span>
+                        <span>Non</span>
+                    </a>
+                    <button type="submit" class="button is-danger">
+                        <span class="icon">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span>Oui</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Confirmation de suppression du post -->
 <?php elseif ($action == 'deletePost') : ?>
     <div class="column is-4 is-offset-4">
@@ -72,6 +98,31 @@ require_once 'Views/navbar.php';
                         <span>Non</span>
                     </a>
                     <a href="<?= LOCALPATH ?>post/deletepost/<?= $post['ID_post'] ?>" class="button is-danger">
+                        <span class="icon">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span>Oui</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Confirmation de suppression du commentaire -->
+<?php elseif ($action == 'deleteComment') : ?>
+    <div class="column is-4 is-offset-4">
+        <div class="card">
+            <div class="card-content">
+                <p class="title has-text-centered is-4">
+                    Confirmez vous vouloir supprimer le commentaire ?
+                </p>
+                <div class="buttons is-centered">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                        <span class="icon">
+                            <i class="fa-solid fa-left-long"></i>
+                        </span>
+                        <span>Non</span>
+                    </a>
+                    <a href="<?= LOCALPATH ?>comment/deleteComment/<?= $post['ID'] ?>" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>

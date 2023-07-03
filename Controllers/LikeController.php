@@ -29,4 +29,27 @@ class LikeController {
         $data = $_POST;
         require_once 'Views/like/list.php';
     }
+
+    public function postLikeComment() {
+        $data = $_POST;
+        $origin = $_POST['origin'];
+        $post = $_POST['ID_post'];
+        $data['ID_post'] = null;
+        $this->likeModel->createLike($data);
+        $data['ID_post'] = $post;
+        if ($data['isNested'] == 0) {
+            $data['ID_comment'] = null;
+        }
+        require_once 'Views/comment/likeRedirect.php';
+    }
+
+    public function postDislikeComment() {
+        $data = $_POST;
+        $origin = $_POST['origin'];
+        $this->likeModel->deleteLike($data['ID_like']);
+        if ($data['isNested'] == 0) {
+            $data['ID_comment'] = null;
+        }
+        require_once 'Views/comment/likeRedirect.php';
+    }
 }

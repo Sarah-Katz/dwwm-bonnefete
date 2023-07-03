@@ -5,8 +5,8 @@ namespace App\Models;
 class Like {
     protected int $ID_like;
     protected int $ID_user;
-    protected int $ID_post;
-    protected int $ID_comment;
+    protected ?int $ID_post;
+    protected ?int $ID_comment;
 
     public function getID_like() {
         return $this->ID_like;
