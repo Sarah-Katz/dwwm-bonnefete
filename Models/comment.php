@@ -5,13 +5,13 @@ namespace App\Models;
 class Comment {
     protected int $ID;
     protected int $ID_user;
-    protected int $ID_post;
-    protected int $ID_comment;
+    protected ?int $ID_post;
+    protected ?int $ID_comment;
     protected string $message;
     protected $timestamp;
 
     public function getID() {
-        return $this->ID_comment;
+        return $this->ID;
     }
 
     public function getID_user() {
