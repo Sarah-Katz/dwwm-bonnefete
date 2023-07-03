@@ -46,7 +46,7 @@ class PostModel {
     }
 
     public function getPostsByUserId($id) {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_user = :ID_user");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC");
         $query->execute([
             ':ID_user' => $id
         ]);
