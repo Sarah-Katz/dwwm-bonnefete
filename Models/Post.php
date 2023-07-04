@@ -7,6 +7,7 @@ class Post {
     protected int $ID_user;
     protected $post_date;
     protected string $message;
+    protected ?string $url_image;
 
     public function getID_post() {
         return $this->ID_post;
@@ -26,6 +27,10 @@ class Post {
         return $this->message;
     }
 
+    public function getUrl_image() {
+        return $this->url_image;
+    }
+
     public function setID_post($ID_post) {
         $this->ID_post = $ID_post;
     }
@@ -40,5 +45,9 @@ class Post {
 
     public function setMessage($message) {
         $this->message = $message;
+    }
+
+    public function setUrl_image($url_image) {
+        $this->url_image = $url_image;
     }
 }

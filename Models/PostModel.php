@@ -17,11 +17,12 @@ class PostModel {
 
     public function createPost($post) {
         try {
-            $query = $this->connection->getPdo()->prepare("INSERT INTO posts (ID_user, post_date, message) VALUES (:ID_user, :post_date, :message)");
+            $query = $this->connection->getPdo()->prepare("INSERT INTO posts (ID_user, post_date, message, url_image) VALUES (:ID_user, :post_date, :message, :url_image)");
             $query->execute(array(
                 ':ID_user' => $post['ID_user'],
                 ':post_date' => date('y-m-d h:i:s'),
-                ':message' => $post['message']
+                ':message' => $post['message'],
+                ':url_image' => $post['url_image']
             ));
             return "Bien enregistré";
         } catch (\PDOException $e) {
@@ -31,13 +32,13 @@ class PostModel {
     }
 
     public function getPosts() {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts ORDER BY post_date DESC");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message, url_image FROM posts ORDER BY post_date DESC");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
 
     public function getPostById($id) {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_post = :ID_post");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message, url_image FROM posts WHERE ID_post = :ID_post");
         $query->execute([
             ':ID_post' => $id
         ]);
@@ -46,7 +47,7 @@ class PostModel {
     }
 
     public function getPostsByUserId($id) {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message, url_image FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC");
         $query->execute([
             ':ID_user' => $id
         ]);
@@ -56,10 +57,11 @@ class PostModel {
 
     public function updatePost($id, $post) {
         try {
-            $query = $this->connection->getPdo()->prepare("UPDATE posts SET message = :message WHERE ID_post = :ID_post");
+            $query = $this->connection->getPdo()->prepare("UPDATE posts SET message = :message, url_image = :url_image WHERE ID_post = :ID_post");
             $query->execute([
                 ':ID_post' => $id,
-                ':message' => $post['message']
+                ':message' => $post['message'],
+                ':url_image' => $post['url_image']
             ]);
         } catch (\PDOException $e) {
             echo $e->getMessage();
