@@ -99,9 +99,9 @@ require_once 'Views/navbar.php';
     </form>
 </div>
 
-<!-- Boutons conditionels de promotion et de suppression de profil -->
+<!-- Boutons conditionnel de promotion et de suppression de profil -->
 <!-- Promotion -->
-<?php if ($user->getID_role() == 1 && $_SESSION['ID_role'] != 1) : ?>
+<?php if ($user->getID_role() == 1 && $_SESSION['ID_role'] == 3) : ?>
     <div class="column is-2 is-offset-10 has-text-weight-bold">
         <a href="../makeMod/<?= $user->getID_user() ?>" class="button is-warning">Promouvoir en modérateur</a>
     </div>
