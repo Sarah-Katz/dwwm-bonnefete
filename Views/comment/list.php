@@ -5,8 +5,8 @@ use App\Models\PostModel;
 use App\Models\LikeModel;
 use App\Models\CommentModel;
 
-require_once 'views/header.php';
-require_once 'views/navbar.php';
+require_once 'Views/header.php';
+require_once 'Views/navbar.php';
 ?>
 
 <?php
@@ -27,11 +27,11 @@ $posts[] = $post;
 $isFirst = true;
 if ($isNested) {
     $comment = $commentModel->getCommentById($data['ID_comment']);
-    require_once 'views/comment/comment.php';
+    require_once 'Views/comment/comment.php';
 }
 
 if (!$isNested) {
-    require_once 'views/post/post.php';
+    require_once 'Views/post/post.php';
 }
 ?>
 <!-- Formulaire d'ajout de commentaire -->
@@ -72,7 +72,7 @@ if (!$isNested) {
     $isFirst = true;
 }
 foreach ($comments as $comment) {
-    require 'views/comment/comment.php';
+    require 'Views/comment/comment.php';
 } ?>
 
-<?php require_once 'views/footer.php'; ?>
+<?php require_once 'Views/footer.php'; ?>
