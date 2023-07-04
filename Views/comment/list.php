@@ -36,13 +36,12 @@ if (!$isNested) {
 ?>
 <!-- Formulaire d'ajout de commentaire -->
 <form action="<?= LOCALPATH ?>comment/addComment" method="post">
-    <div class="column is-4 is-offset-4 mt-2 mb-2">
-        <div class="card">
-            <span>Ajouter un commentaire</span>
+    <div class="column is-4 is-offset-4 mb-2">
+        <div class="card has-text-align-center">
             <div class="card-content">
                 <div class="field has-addons">
                     <p class="control has-icons-left is-expanded">
-                        <input class="input" type="text" name="message" id="message" maxlength="200" required>
+                        <input class="input" type="text" name="message" id="message" maxlength="200" required placeholder="Ajoutez un commentaire">
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-comment"></i>
                         </span>
