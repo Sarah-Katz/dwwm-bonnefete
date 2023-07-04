@@ -31,3 +31,11 @@
 .button-no-border {
   border: none;
 }
+
+/* make responsive for screen size of a minimum width of 1000px */
+
+@media only screen and (min-width: 1000px) {
+  div#user-infos {
+    position: absolute !important;
+  }
+}

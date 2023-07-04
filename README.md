@@ -15,12 +15,35 @@ ___
 ```
 git clone https://github.com/Sarah-Katz/dwwm-bonnefete
 ```
+```
+Importer le .sql
+```
 
-Utiliser composer et node pour installer les dépendances du projet :
+
+Important d'indiquer les informations du schéma utilisateur : la racine du projet dans le fichier .env
+
+Exemple:
+
+DB_HOST="localhost"
+DB_NAME="bonnefete"
+
+DB_USER="bonnefete"
+
+DB_PASS="bonnefetebdd"
+
+LOCALPATH="/sofip/dwwm/bonnefete/"
+
+Le projet tourne sur un serveur Apache de type XAMPP.
+
+
+
+
+Utilisez Composer et Node pour installer les dépendances du projet :
 
 ```
 npm install
 ```
+ 
 ```
 composer install
 ```
@@ -31,8 +54,8 @@ ___
 ___
 -***Samuel Dénommé***
 
-<a href="[https://github.com/bunnyhopper363]"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></img></a>
-<a href="[https://www.linkedin.com/in/samuel-d%C3%A9nomm%C3%A9-7b9943280/]"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a> 
+<a href="https://github.com/bunnyhopper363"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></img></a>
+<a href="https://www.linkedin.com/in/samuel-d%C3%A9nomm%C3%A9-7b9943280/]"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a> 
 
 -***Sarah Katz***
 
@@ -42,4 +65,4 @@ ___
 -***Othman Douz***
 
 <a href="[https://github.com/Othman59]"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></img></a>
-<a href="[https://www.linkedin.com/in/othman-douz-22ab1a251/]"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a> 
+<a href="[https://www.linkedin.com/in/othman-douz-22ab1a251/]"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></img></a>

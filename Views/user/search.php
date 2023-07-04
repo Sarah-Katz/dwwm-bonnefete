@@ -19,7 +19,10 @@ require_once 'Views/navbar.php'; ?>
                 <div class="media">
                     <div class="media-content">
                         <a class="is-pulled-right button blue-background has-text-white" href="../user/profile/<?= $user->getID_user() ?>">Voir le profil</a>
-                        <p class="title is-4"><?= $user->getUsername() ?></p>
+                        <div>
+                            <?php if ($user->getID_role() == 2) : ?> <i class="fa-solid fa-star" style="color: var(--orange);"></i> <span class="orange-text">Modérateur</span> <?php endif; ?>
+                            <p class="title is-4"><?= $user->getUsername() ?></p>
+                        </div>
                         <p class="subtitle is-6"><?= $user->getEmail() ?></p>
                     </div>
                 </div>

@@ -16,9 +16,42 @@ class UserModel {
     }
 
     public function createUser($user) {
-        var_dump($user);
+        // Verification de la présence d'info dans les champs
+        if ($user['email'] == "" || $user['password'] == "" || $user['name'] == "" || $user['passwordConfirm'] == "" || $user['emailConfirm'] == "") {
+            return "empty";
+        }
+        // Verification de la concordance des champs Email
+        if ($user['email'] != $user['emailConfirm']) {
+            return "emailConfirm";
+        }
+        // Verification de la concordance des champs de mot de passe
+        if ($user['password'] != $user['passwordConfirm']) {
+            return "passwordConfirm";
+        }
+
+        // Vérification du doublon de mail
+        $query = $this->connection->getPdo()->prepare('SELECT email, is_active FROM users WHERE email = :email');
+        $query->execute(['email' => $user['email']]);
+        $mailCheck = $query->fetch();
+        if ($mailCheck) {
+            //  Si l'utilisateur existe déjà et est actif
+            if ($mailCheck['is_active'] == 1) {
+                return "doubleEmail";
+            } else {
+                // Si l'utilisateur existe déjà et n'est pas actif
+                $password = password_hash($user['password'], PASSWORD_DEFAULT);
+                $query = $this->connection->getPdo()->prepare('UPDATE users SET email = :email, password = :password, username = :name, is_active = :is_active WHERE email = :email');
+                $query->execute([
+                    'email' => $user['email'],
+                    'password' => $password,
+                    'name' => $user['name'],
+                    'is_active' => 1
+                ]);
+                return "reactivated";
+            }
+        }
+        // Enregistrement normal d'un utilisateur
         $password = password_hash($user['password'], PASSWORD_DEFAULT);
-        var_dump($password);
         try {
             $query = $this->connection->getPdo()->prepare("INSERT INTO users (email, password, username, register_date) VALUES (:email, :password, :username, :register_date)");
             $query->execute([
@@ -27,7 +60,7 @@ class UserModel {
                 'username' => strtoupper($user['name']),
                 'register_date' => date('y-m-d h:i:s')
             ]);
-            return "Bien enregistré";
+            return "success";
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
@@ -59,17 +92,65 @@ class UserModel {
 
     public function editUser($user, $userId) {
         try {
+            $oldUser = $this->getUserById($userId);
+            // Vérification de la présence d'info dans les champs
+            if ($user['email'] == "" || $user['emailConfirm'] == "" || $user['username'] == "") {
+                return "empty";
+            }
+            // Verification de la concordance des champs Email
+            if ($user['email'] != $user['emailConfirm']) {
+                return "emailConfirm";
+            }
+            // vérification du doublon de mail
+            if ($user['email'] != $oldUser->getEmail()) {
+                $query = $this->connection->getPdo()->prepare('SELECT email FROM users WHERE email = :email');
+                $query->execute(['email' => $user['email']]);
+                $mailCheck = $query->fetch();
+                if ($mailCheck) {
+                    return "emailUsed";
+                }
+            }
+            // Modification de l'utilisateur
             $query = $this->connection->getPdo()->prepare("UPDATE users SET email = :email, username = :username WHERE ID_user = :id");
             $query->execute([
                 'email' => $user['email'],
                 'username' => $user['username'],
                 'id' => $userId
             ]);
-            return "Bien enregistré";
+            return "success";
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
         }
+    }
+
+    public function editPassword($user, $userId) {
+        // Vérification de la présence d'info dans les champs
+        if ($user['oldPassword'] == "" || $user['password'] == "" || $user['passwordConfirm'] == "") {
+            return "empty";
+        }
+        // Verification de la concordance des champs de mot de passe
+        if ($user['password'] != $user['passwordConfirm']) {
+            return "passwordConfirm";
+        }
+        // Vérification de l'ancien mot de passe
+        $query = $this->connection->getPdo()->prepare("SELECT password FROM users WHERE ID_user = :id");
+        $query->execute([
+            'id' => $userId
+        ]);
+        $passwordCheck = $query->fetch();
+        $oldPassword = $user['oldPassword'];
+        $passCheck = password_verify($oldPassword, $passwordCheck['password']);
+        if (!$passCheck) {
+            return "noVerify";
+        }
+        // Modification de l'utilisateur
+        $query = $this->connection->getPdo()->prepare("UPDATE users SET password = :password WHERE ID_user = :id");
+        $query->execute([
+            'password' => password_hash($user['password'], PASSWORD_DEFAULT),
+            'id' => $userId
+        ]);
+        return "success";
     }
 
     public function deleteUser($id) {
@@ -120,5 +201,29 @@ class UserModel {
             'ID_user' => $id
         ]);
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
+    }
+
+    public function makeModerator($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET ID_role = 2 WHERE ID_user = :ID_user");
+            $query->execute([
+                'ID_user' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
+    }
+
+    public function demoteModerator($id) {
+        try {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET ID_role = 1 WHERE ID_user = :ID_user");
+            $query->execute([
+                'ID_user' => $id
+            ]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            return " une erreur est survenue";
+        }
     }
 }

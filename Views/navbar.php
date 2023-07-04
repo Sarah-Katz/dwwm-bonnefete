@@ -11,7 +11,7 @@
     <div class="column is-4">
         <form class="form" action="<?php echo LOCALPATH ?>user/search" method="post">
             <div class="control has-icons-right">
-                <input class="input" type="search" name="searchTerm" placeholder="Recherchez un utilisateur">
+                <input class="input is-rounded" type="search" name="searchTerm" placeholder="Recherchez un utilisateur">
                 <div class="icon is-small is-right">
                     <i class="fas fa-search"></i>
                 </div>
@@ -27,9 +27,12 @@
                 <a href="<?php echo LOCALPATH ?>user/profile/<?php echo $_SESSION['ID_user'] ?>" class="button blue-background button-no-border is-rounded">
                     <i class="fa-xl fa-solid fa-user" style="color: white;"></i>
                 </a>
-                <a href="<?php echo LOCALPATH ?>user/logout" class="button is-rounded button-no-border">
-                    <i class="fa-xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
-                </a>
+                <form action="<?php echo LOCALPATH ?>user/confirm" method="post">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" href="" class="button is-rounded button-no-border">
+                        <i class="fa-xl fa-solid fa-right-to-bracket" style="color: #ff0000;"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
