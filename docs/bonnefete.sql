@@ -29,6 +29,7 @@ CREATE TABLE `comments` (
   `ID_comment` int DEFAULT NULL,
   `message` varchar(200) NOT NULL,
   `timestamp` datetime NOT NULL,
+  `url_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `comment_owner_idx` (`ID_user`),
   KEY `owning_post_idx` (`ID_post`),
@@ -36,7 +37,7 @@ CREATE TABLE `comments` (
   CONSTRAINT `comment_owner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`),
   CONSTRAINT `owning_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
   CONSTRAINT `owning_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +46,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,40,5,NULL,'Test commentaires nesté modifé','2023-07-03 11:12:33',NULL),(3,40,9,1,'test 3','2023-07-03 01:41:49',NULL),(4,40,5,1,'test','2023-07-03 01:55:41',NULL),(5,40,5,1,'defrgvhb','2023-07-03 01:56:59',NULL),(6,40,5,1,'ghfdd','2023-07-03 01:57:34',NULL),(7,40,5,1,'dfgh','2023-07-03 01:57:47',NULL),(10,40,5,NULL,'mkduflgh','2023-07-03 02:31:08',NULL),(11,40,5,NULL,'ppppp','2023-07-03 02:34:07',NULL),(12,38,5,NULL,'Test de comm','2023-07-03 02:36:28',NULL),(13,38,5,NULL,'Test de comm','2023-07-03 02:36:44',NULL),(14,38,5,NULL,'kujyf','2023-07-03 02:39:08',NULL),(15,2,5,NULL,'gvnhhbjuiko','2023-07-03 02:57:39',NULL),(16,2,5,NULL,'gvnhhbjuiko','2023-07-03 02:57:55',NULL),(17,2,5,NULL,'nb, n,gbnb','2023-07-03 03:01:11',NULL),(18,2,5,NULL,'hjyuguu_hhyhg','2023-07-03 03:01:35',NULL),(19,31,5,NULL,'dfxcgvhb','2023-07-03 03:01:57',NULL),(20,31,5,NULL,'cvgfgbgn,','2023-07-03 03:03:58',NULL),(21,2,5,NULL,'dfcvgbghvn','2023-07-03 03:04:11',NULL),(22,2,5,NULL,'mlihjkrgghrmjl','2023-07-03 03:04:15',NULL),(23,32,5,NULL,'Envois','2023-07-03 03:04:32',NULL),(24,40,5,NULL,'Le meilleur commentaire du monde','2023-07-03 03:04:45',NULL);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +69,7 @@ CREATE TABLE `likes` (
   CONSTRAINT `like_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
   CONSTRAINT `like_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`),
   CONSTRAINT `like_user` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +78,7 @@ CREATE TABLE `likes` (
 
 LOCK TABLES `likes` WRITE;
 /*!40000 ALTER TABLE `likes` DISABLE KEYS */;
-INSERT INTO `likes` VALUES (29,40,9,NULL),(31,40,5,NULL);
+INSERT INTO `likes` VALUES (29,40,9,NULL),(59,NULL,9,1),(78,42,5,NULL),(79,40,5,NULL);
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,10 +94,11 @@ CREATE TABLE `posts` (
   `ID_user` int NOT NULL,
   `post_date` datetime NOT NULL,
   `message` varchar(200) NOT NULL,
+  `url_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_post`),
   KEY `woner_idx` (`ID_user`),
   CONSTRAINT `woner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +107,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc'),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble'),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble'),(34,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble'),(38,5,'2023-07-01 02:32:19','Test de modification du message'),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !');
+INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc',NULL),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble',NULL),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(34,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(38,5,'2023-07-01 02:32:19','Test de modification du message',NULL),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !',NULL),(42,16,'2023-07-04 09:11:20','Poste du 04/07',NULL);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +154,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `role_idx` (`ID_role`),
   CONSTRAINT `role` FOREIGN KEY (`ID_role`) REFERENCES `roles` (`ID_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +163,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,2,'test@test.com','TEST','2023-06-27 00:00:00','',1),(2,1,'jean-marc@gmail.com','Jean-marc','2023-06-28 09:33:49','$2y$10$VovjGGdvTQW16JF7Gc0w0O7CoyIWX6PrLwl/sxV.MyEnfZH2frAA6',1),(4,2,'samuel-denomme@hotmail.com','BUNNY','2023-06-30 11:16:55','$2y$10$sbwbrSEJdPsESnwwK11IdOBhbRM6dyDEb6cmUpsrlo9FNrBHnPyvG',1),(5,3,'sarahkatz59@gmail.com','Sarah katz','2023-06-30 03:19:13','$2y$10$Ptj7s0gEYOGCRm0fC13j8uuhnhtot4n9Icg7D9wfr.glQkEy4estS',1),(6,1,'test1@test.com','Utilisateur désactivé','2023-06-30 05:08:04','$2y$10$tleczDPANCVsogYGeI/zRelCIYzRpCQhHUFuxe2HlZ7FZ8Yv.ojd6',0),(9,1,'ulysse.debove@gmail.com','ULYSSE DEBOVE','2023-06-30 06:52:35','$2y$10$T1RC5jEJDBB32qqCtIYWieXItPcGceAA/pmsloJcQ.qpy3Jk0sRbK',1),(10,1,'rfg@gmail.com','Utilisateur désactivé','2023-06-30 06:56:33','$2y$10$g9wySHYYBRmX9HPCYdOdKOzE69phoUg0Kz/nJRB7vm1F3c/31fMp2',0),(11,1,'Herge@gmail.com','Hergé','2023-06-30 06:58:35','$2y$10$lsy06L2nOwmc3ZUb5bAj1Oc0b2jSnkfhFVKfBdUSZj8kLoAOY1YQC',1),(12,1,'antoine-marc@gmail.com','Antoine Marc','2023-06-30 06:59:35','$2y$10$hOhFtQNVtJm49XPa0dDl8.4iJme3sVuLzoARpJz8OOB.0J2c44NoK',1),(13,1,'dfght@scdfg.com','Utilisateur désactivé','2023-06-30 07:01:14','$2y$10$KTpep.zqCeDr4wuODtpRAew5/e2tGe/hiUzyKMOtv7TGn2A8Po8ru',0),(14,1,'sdfeqrtg@oithdfgj.dfgiouhj','Utilisateur désactivé','2023-06-30 07:03:59','$2y$10$Oh0Ql0kUgs3x1tD4.9mpTeC2t9AcfxbGJO/WdUcugSGjW7zLEtzsO',0),(15,1,'xcdaazrety@kJHG.COM','Utilisateur désactivé','2023-06-30 07:04:49','$2y$10$29CYYmN/t9Dw7DbTB3N8e.g5H96zj6vYMsVXdWYdrL4VMH7ZDYIue',0);
+INSERT INTO `users` VALUES (1,2,'test@test.com','TEST','2023-06-27 00:00:00','',1),(2,1,'jean-marc@gmail.com','Jean-marc','2023-06-28 09:33:49','$2y$10$VovjGGdvTQW16JF7Gc0w0O7CoyIWX6PrLwl/sxV.MyEnfZH2frAA6',1),(4,2,'samuel-denomme@hotmail.com','BUNNY','2023-06-30 11:16:55','$2y$10$sbwbrSEJdPsESnwwK11IdOBhbRM6dyDEb6cmUpsrlo9FNrBHnPyvG',1),(5,3,'sarahkatz59@gmail.com','Sarah katz','2023-06-30 03:19:13','$2y$10$Ptj7s0gEYOGCRm0fC13j8uuhnhtot4n9Icg7D9wfr.glQkEy4estS',1),(6,1,'test1@test.com','Utilisateur désactivé','2023-06-30 05:08:04','$2y$10$tleczDPANCVsogYGeI/zRelCIYzRpCQhHUFuxe2HlZ7FZ8Yv.ojd6',0),(9,1,'ulysse.debove@gmail.com','ULYSSE DEBOVE','2023-06-30 06:52:35','$2y$10$T1RC5jEJDBB32qqCtIYWieXItPcGceAA/pmsloJcQ.qpy3Jk0sRbK',1),(10,1,'rfg@gmail.com','Utilisateur désactivé','2023-06-30 06:56:33','$2y$10$g9wySHYYBRmX9HPCYdOdKOzE69phoUg0Kz/nJRB7vm1F3c/31fMp2',0),(11,1,'Herge@gmail.com','Hergé','2023-06-30 06:58:35','$2y$10$lsy06L2nOwmc3ZUb5bAj1Oc0b2jSnkfhFVKfBdUSZj8kLoAOY1YQC',1),(12,1,'antoine-marc@gmail.com','Antoine Marc','2023-06-30 06:59:35','$2y$10$hOhFtQNVtJm49XPa0dDl8.4iJme3sVuLzoARpJz8OOB.0J2c44NoK',1),(13,1,'dfght@scdfg.com','Utilisateur désactivé','2023-06-30 07:01:14','$2y$10$KTpep.zqCeDr4wuODtpRAew5/e2tGe/hiUzyKMOtv7TGn2A8Po8ru',0),(14,1,'sdfeqrtg@oithdfgj.dfgiouhj','Utilisateur désactivé','2023-06-30 07:03:59','$2y$10$Oh0Ql0kUgs3x1tD4.9mpTeC2t9AcfxbGJO/WdUcugSGjW7zLEtzsO',0),(15,1,'xcdaazrety@kJHG.COM','Utilisateur désactivé','2023-06-30 07:04:49','$2y$10$29CYYmN/t9Dw7DbTB3N8e.g5H96zj6vYMsVXdWYdrL4VMH7ZDYIue',0),(16,1,'cvbgh@dfxvbdfg.fr','JUJUJU','2023-07-04 09:11:09','$2y$10$tgxO85Bb8Z8DtYTyqeKhcOc4c45iVT8z8YSjGZQZhEcrSwK4PJZp6',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-02 17:41:26
+-- Dump completed on 2023-07-04 11:32:29
