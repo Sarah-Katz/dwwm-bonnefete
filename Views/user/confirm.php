@@ -12,7 +12,7 @@ require_once 'Views/navbar.php';
             </p>
             <div class="buttons is-centered">
                 <a href="<?= LOCALPATH ?>post/feed">
-                    <button class="button is-success">
+                    <button class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
@@ -20,7 +20,7 @@ require_once 'Views/navbar.php';
                     </button>
                 </a>
                 <a href="<?= LOCALPATH ?>user/logout">
-                    <button class="button is-danger">
+                    <button class="button is-success">
                         <span class="icon">
                             <i class="fas fa-sign-out-alt"></i>
                         </span>
@@ -42,11 +42,11 @@ require_once 'Views/navbar.php';
                 <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
                 <input type="hidden" name="id" value="<?= $post['id'] ?>">
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon"> <i class="fa-solid fa-left-long"></i></span>
                         <span>Non</span>
                     </a>
-                    <button type="submit" class="button is-danger">
+                    <button type="submit" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -68,11 +68,11 @@ require_once 'Views/navbar.php';
                 <input type="hidden" name="message" id="message" value="<?= $post['message'] ?>">
                 <input type="hidden" name="id" value="<?= $post['id'] ?>">
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon"> <i class="fa-solid fa-left-long"></i></span>
                         <span>Non</span>
                     </a>
-                    <button type="submit" class="button is-danger">
+                    <button type="submit" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -91,13 +91,13 @@ require_once 'Views/navbar.php';
                     Confirmez vous vouloir supprimer le message ?
                 </p>
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
                         <span>Non</span>
                     </a>
-                    <a href="<?= LOCALPATH ?>post/deletepost/<?= $post['ID_post'] ?>" class="button is-danger">
+                    <a href="<?= LOCALPATH ?>post/deletepost/<?= $post['ID_post'] ?>" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -116,13 +116,13 @@ require_once 'Views/navbar.php';
                     Confirmez vous vouloir supprimer le commentaire ?
                 </p>
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
                         <span>Non</span>
                     </a>
-                    <a href="<?= LOCALPATH ?>comment/deleteComment/<?= $post['ID'] ?>" class="button is-danger">
+                    <a href="<?= LOCALPATH ?>comment/deleteComment/<?= $post['ID'] ?>" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -145,13 +145,13 @@ require_once 'Views/navbar.php';
                 <input type="hidden" name="username" id="username" value="<?= $post['username'] ?>">
                 <input type="hidden" name="ID_user" value="<?= $post['ID_user'] ?>">
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
                         <span>Non</span>
                     </a>
-                    <button type="submit" class="button is-danger">
+                    <button type="submit" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -174,13 +174,13 @@ require_once 'Views/navbar.php';
                 <input type="hidden" name="passwordConfirm" id="passwordConfirm" value="<?= $post['passwordConfirm'] ?>">
                 <input type="hidden" name="ID_user" value="<?= $post['ID_user'] ?>">
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
                         <span>Non</span>
                     </a>
-                    <button type="submit" class="button is-danger">
+                    <button type="submit" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -199,13 +199,13 @@ require_once 'Views/navbar.php';
                     Confirmez vous vouloir désactiver l'utilisateur ?
                 </p>
                 <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
                         <span class="icon">
                             <i class="fa-solid fa-left-long"></i>
                         </span>
                         <span>Non</span>
                     </a>
-                    <a href="<?php echo LOCALPATH ?>user/delete/<?= $post['ID_user'] ?>" class="button is-danger">
+                    <a href="<?php echo LOCALPATH ?>user/delete/<?= $post['ID_user'] ?>" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
