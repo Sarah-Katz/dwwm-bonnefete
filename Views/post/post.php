@@ -45,28 +45,29 @@ use App\Models\CommentModel;
                             <span class="blue-text has-text-weight-bold"><?= $likesNumber ?></span>
                         </button>
                     </form>
-                <?php else : ?>
-                    <button class="button is-ghost is-pulled-left m-0 p-1">
-                        <span class="blue-text has-text-weight-bold is-pulled-left"><?= $likesNumber ?></span>
-                    </button>
-                <?php endif; ?>
-                <!-- Vérification, le post est-il liké par l'utilisateur connecté ? -->
-                <?php $hasLiked = false; ?>
-                <?php foreach ($likes as $like) : ?>
-                    <?php if ($_SESSION['ID_user'] == $like->getID_user()) : ?>
-                        <!-- Si oui, lien de dislike -->
+                    <?php else : ?>
+                        <button class="button is-ghost is-pulled-left m-0 p-1">
+                            <span class="blue-text has-text-weight-bold is-pulled-left"><?= $likesNumber ?></span>
+                        </button>
+                        <?php endif; ?>
+                        <!-- Vérification, le post est-il liké par l'utilisateur connecté ? -->
+                        <?php $hasLiked = false; ?>
+                        <?php foreach ($likes as $like) : ?>
+                            <?php if ($_SESSION['ID_user'] == $like->getID_user()) : ?>
+                                <!-- Si oui, lien de dislike -->
                         <?php $hasLiked = true; ?>
                         <a href="<?= LOCALPATH ?>like/dislikePost/<?= $like->getID_like() ?>" class="button is-ghost m-0 p-1 is-pulled-left">
                             <span class="icon">
                                 <i class="fa-solid fa-thumbs-down" style="color: var(--blue);"></i>
                             </span>
                         </a>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
                 <?php if (!$hasLiked) : ?>
                     <!-- Si non, formulaire caché de like -->
                     <form action="<?= LOCALPATH ?>like/likePost" method="post">
                         <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
+                        <input type="hidden" name="ID_comment" value="null">
                         <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
                         <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
                         <button class="button is-ghost m-0 p-1 is-pulled-left" type="submit">

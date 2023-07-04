@@ -16,6 +16,10 @@ class LikeModel {
     }
 
     public function createLike($like) {
+        // Gérer les valeurs null
+        if ($like['ID_comment'] == "null") {
+            $like['ID_comment'] = null;
+        }
         try {
             $query = $this->connection->getPdo()->prepare("INSERT INTO likes (ID_user, ID_post, ID_comment) VALUES (:ID_user, :ID_post, :ID_comment)");
             $query->execute(array(
