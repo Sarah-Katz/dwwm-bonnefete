@@ -29,7 +29,7 @@
             </div>
 
             <div class="buttons is-centered">
-                <a href="http://localhost<?php echo LOCALPATH ?>user/register" class="button blue-background has-text-white">S'incrire</a>
+                <a href="http://localhost<?php echo LOCALPATH ?>user/register" class="button blue-background has-text-white">S'inscrire</a>
                 <input type="submit" class="button is-success" value="Connexion"></input>
             </div>
         </div>
