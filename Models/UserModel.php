@@ -153,6 +153,24 @@ class UserModel {
         return "success";
     }
 
+    public function editPasswordAdmin($user, $userId) {
+        // Vérification de la présence d'info dans les champs
+        if ($user['password'] == "" || $user['passwordConfirm'] == "") {
+            return "empty";
+        }
+        // Verification de la concordance des champs de mot de passe
+        if ($user['password'] != $user['passwordConfirm']) {
+            return "passwordConfirm";
+        }
+        // Modification de l'utilisateur
+        $query = $this->connection->getPdo()->prepare("UPDATE users SET password = :password WHERE ID_user = :id");
+        $query->execute([
+            'password' => password_hash($user['password'], PASSWORD_DEFAULT),
+            'id' => $userId
+        ]);
+        return "success";
+    }
+
     public function deleteUser($id) {
         try {
             $query = $this->connection->getPdo()->prepare("UPDATE users SET is_active = 0, username = 'Utilisateur désactivé' WHERE ID_user = :id");

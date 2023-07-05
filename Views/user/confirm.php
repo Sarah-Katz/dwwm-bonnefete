@@ -163,6 +163,35 @@ require_once 'Views/navbar.php';
             </div>
         </form>
     </div>
+    <!-- Confirmation de modification du mot de passe par un admin-->
+<?php elseif ($action == 'editPasswordAdmin') : ?>
+    <?php var_dump($post); ?>
+    <div class="column is-4 is-offset-4">
+        <form class="card" action="<?= LOCALPATH ?>user/passwordEditAdmin" method="post">
+            <div class="card-content">
+                <p class="title has-text-centered is-4">
+                    Confirmez vous vouloir modifier le mot de passe de l'utilisateur ?
+                </p>
+                <input type="hidden" name="password" id="password" value="<?= $post['password'] ?>">
+                <input type="hidden" name="passwordConfirm" id="passwordConfirm" value="<?= $post['passwordConfirm'] ?>">
+                <input type="hidden" name="ID_user" value="<?= $post['ID_user'] ?>">
+                <div class="buttons is-centered">
+                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
+                        <span class="icon">
+                            <i class="fa-solid fa-left-long"></i>
+                        </span>
+                        <span>Non</span>
+                    </a>
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                        <span>Oui</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- Confirmation de la suppression d'un utilisateur -->
 <?php elseif ($action == 'deleteUser') : ?>
     <div class="column is-4 is-offset-4">
