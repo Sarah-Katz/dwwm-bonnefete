@@ -92,16 +92,28 @@ class UserController {
     }
 
     public function getSearch($users) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         require_once 'Views/user/search.php';
     }
 
     public function getProfile($userId) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $user = $this->userModel->getUserById($userId);
         $posts = $this->postModel->getPostsByUserId($userId);
         require_once 'Views/user/profile.php';
     }
 
     public function getProfileEdit($userId) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $user = $this->userModel->getUserById($userId);
         $error = "";
         require_once 'Views/user/profileEdit.php';
