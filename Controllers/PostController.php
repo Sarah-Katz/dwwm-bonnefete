@@ -14,6 +14,10 @@ class PostController {
     }
 
     public function getFeed() {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $posts = $this->postModel->getPosts();
         require_once 'Views/post/feed.php';
     }
@@ -30,6 +34,10 @@ class PostController {
     }
 
     public function getEdit($id) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $post = $this->postModel->getPostById($id);
         require_once 'Views/post/edit.php';
     }

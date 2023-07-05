@@ -31,6 +31,10 @@ class CommentController {
     }
 
     public function getEdit($id) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $comment = $this->commentModel->getCommentById($id);
         require_once 'Views/comment/edit.php';
     }
