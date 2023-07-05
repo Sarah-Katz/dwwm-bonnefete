@@ -214,7 +214,7 @@ class UserModel {
     }
 
     public function getRecentPosts($id) {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, message, post_date FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC LIMIT 2");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, message, url_image, post_date FROM posts WHERE ID_user = :ID_user ORDER BY post_date DESC LIMIT 2");
         $query->execute([
             'ID_user' => $id
         ]);
