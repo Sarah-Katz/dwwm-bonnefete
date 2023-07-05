@@ -183,6 +183,10 @@ class UserController {
     public function postConfirm() {
         $action = $_POST['action'];
         $post = $_POST;
+        var_dump($_FILES);
+        $image=$_FILES['image'];
+        // Transfer $_FILES to a variable i can pass to another script
+
         require_once 'Views/user/confirm.php';
     }
 }

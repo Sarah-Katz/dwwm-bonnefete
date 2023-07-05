@@ -32,7 +32,9 @@
   border: none;
 }
 
-/* make responsive for screen size of a minimum width of 1000px */
+.level-is-shrinkable {
+  flex-shrink: 1 !important;
+}
 
 @media only screen and (min-width: 1000px) {
   div#user-infos {

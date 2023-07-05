@@ -3,7 +3,7 @@ require_once 'Views/header.php';
 require_once 'Views/navbar.php';
 ?>
 
-<!-- Confirmation de déconnection -->
+<!-- Confirmation de déconnexion -->
 <?php if ($action == 'logout') : ?>
     <div class="column is-4 is-offset-4">
         <div class="box">
@@ -29,33 +29,6 @@ require_once 'Views/navbar.php';
                 </a>
             </div>
         </div>
-    </div>
-    <!-- Confirmation de modification de message -->
-<?php elseif ($action == 'editPost') : ?>
-    <div class="column is-4 is-offset-4">
-        <form class="card" action="<?= LOCALPATH ?>post/edit" method="post">
-            <div class="card-content">
-                <p class="title has-text-centered is-4">
-                    Confirmez vous vouloir modifier le message ?
-                </p>
-                <input type="hidden" name="message" id="message" value="<?= $post['message'] ?>">
-                <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
-                <input type="hidden" name="id" value="<?= $post['id'] ?>">
-                <div class="buttons is-centered">
-                    <a href="<?= LOCALPATH ?>post/feed" class="button is-danger">
-                        <span class="icon"> <i class="fa-solid fa-left-long"></i></span>
-                        <span>Non</span>
-                    </a>
-                    <button type="submit" class="button is-success">
-                        <span class="icon">
-                            <i class="fa-solid fa-check"></i>
-                        </span>
-                        <span>Oui</span>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
     </div>
     <!-- Confirmation de modification de commentaire -->
 <?php elseif ($action == 'editComment') : ?>
