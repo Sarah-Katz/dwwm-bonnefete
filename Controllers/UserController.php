@@ -28,6 +28,9 @@ class UserController {
         if ($check == "success") {
             $error = "success";
             require_once 'Views/user/login.php';
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
         } elseif ($check == "reactivated") {
             $error = "reactivated";
             require_once 'Views/user/login.php';
@@ -109,6 +112,9 @@ class UserController {
         $check = $this->userModel->editUser($user, $userId);
         if ($check == "success") {
             header('Location:../profile/' . $userId);
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
         } elseif ($check == "emailConfirm") {
             $error = "Les deux emails ne sont pas identiques";
             $user = $this->userModel->getUserById($userId);
@@ -130,6 +136,9 @@ class UserController {
         $check = $this->userModel->editPassword($user, $userId);
         if ($check == "success") {
             header('Location:../user/profile/' . $userId);
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
         } elseif ($check == "passwordConfirm") {
             $error = "Les deux mots de passe ne sont pas identiques";
             $user = $this->userModel->getUserById($userId);

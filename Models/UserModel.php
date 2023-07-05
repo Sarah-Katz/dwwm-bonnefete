@@ -16,6 +16,10 @@ class UserModel {
     }
 
     public function createUser($user) {
+        // Regex de vérification pour le mot de passe
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/', $user['password'])) {
+            return "regex";
+        }
         // Verification de la présence d'info dans les champs
         if ($user['email'] == "" || $user['password'] == "" || $user['name'] == "" || $user['passwordConfirm'] == "" || $user['emailConfirm'] == "") {
             return "empty";
@@ -129,6 +133,10 @@ class UserModel {
         if ($user['oldPassword'] == "" || $user['password'] == "" || $user['passwordConfirm'] == "") {
             return "empty";
         }
+        // Regex de vérification pour le mot de passe
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/', $user['password'])) {
+            return "regex";
+        }
         // Verification de la concordance des champs de mot de passe
         if ($user['password'] != $user['passwordConfirm']) {
             return "passwordConfirm";
@@ -157,6 +165,10 @@ class UserModel {
         // Vérification de la présence d'info dans les champs
         if ($user['password'] == "" || $user['passwordConfirm'] == "") {
             return "empty";
+        }
+        // Regex de vérification pour le mot de passe
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/', $user['password'])) {
+            return "regex";
         }
         // Verification de la concordance des champs de mot de passe
         if ($user['password'] != $user['passwordConfirm']) {
