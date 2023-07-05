@@ -1,50 +1,54 @@
 # **BONNEFETE** - *Projet dev web mobile*
-*Un site web de type réseau social qui permet à des utilisateurs d'échanger des posts sous forme de messages de moins de 200 caractères pouvant être partagés en interne dans une entreprise.*
+***Dans le cadre de notre formation en Dev Web/ Web Mobile, nous nous voyons confié le projet suivant :***
+
+Réaliser le site web de type réseau social de la société BonneFete, qui permettras à ses utilisateurs d'échanger des posts sous forme de messages de moins de 200 caractères, pouvant contenir une image et être commenté ainsi que "liké".
+
+Les utilisateurs devront avoir accès aux profils et poste de tous
+
+Des modérateurs pourront supprimer postes, commentaires et profils du site (ils ne peuvent pas poster de message).
+Il y à également un rôle de super admin qui à tout les droits, notamment celui de promouvoir ou destituer des modérateurs
 ___
 ### *Technologies utilisées*
 
 
-![html](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
-![css](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
 ![php](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
-![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![MYSQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+![MYSQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![Javascript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![css](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![html](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ___
-### *Installation du projet*
+## *Installation du projet*
 *Commandes à utiliser pour installer le projet sur une machine*
 ```
 git clone https://github.com/Sarah-Katz/dwwm-bonnefete
 ```
-```
-Importer le .sql
-```
 
+### Importez le .sql
+___
 
-Important d'indiquer les informations du schéma utilisateur : la racine du projet dans le fichier .env
+Vous le trouverez dans le dossier "docs" du projet
 
-Exemple:
+### indiquez les informations du schéma utilisateur : la racine du projet dans le fichier .env
+___
 
-DB_HOST="localhost"
-DB_NAME="bonnefete"
+**DB_HOST** - Adresse de la machine hébergeant la BDD
 
-DB_USER="bonnefete"
+**DB_NAME** - Nom du schéma de la BDD
 
-DB_PASS="bonnefetebdd"
+**DB_USER** - Nom d'utilisateur pour l’accès à la BDD
 
-LOCALPATH="/sofip/dwwm/bonnefete/"
+**DB_PASS** - Le mot de passe de l'utilisateur
+
+**LOCALPATH** - La racine du projet sur la machine (à partir du dossir htdocs __ex: "/bonnefete/"__)
 
 Le projet tourne sur un serveur Apache de type XAMPP.
 
 
-
-
-Utilisez Composer et Node pour installer les dépendances du projet :
+### Utilisez Composer et Node pour installer les dépendances du projet :
+___
 
 ```
 npm install
-```
- 
-```
 composer install
 ```
 - **vlucas/phpdotenv** (*5.5*)
