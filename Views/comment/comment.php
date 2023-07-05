@@ -25,35 +25,55 @@ $nestedCommentsNumber = count($nestedComments);
                             <input type="hidden" name="ID" value="<?= $comment->getID() ?>">
                             <button class="button is-ghost m-0 p-1"><i class=" fas fa-xl fa-trash" style="color: red;"></i></button>
                         </form>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
-            <!-- Message -->
-            <div class="content is-large has-border">
-                <?= $comment->getMessage() ?>
-            </div>
+                <!-- Message -->
+                <div class="content is-large has-border">
+                    <?= $comment->getMessage() ?>
+                </div>
 
-            <!-- Gestion des likes -->
-            <?php if ($likes) : ?>
-                <form action="<?= LOCALPATH ?>like/showLikes" method="post">
-                    <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
-                    <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
-                    <button class="button is-ghost is-pulled-left m-0 p-1" type="submit">
-                        <span class="blue-text has-text-weight-bold"><?= $likesNumber ?></span>
+                <!-- Gestion des likes -->
+                <?php if ($likes) : ?>
+                    <form action="<?= LOCALPATH ?>like/showLikes" method="post">
+                        <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
+                        <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
+                        <button class="button is-ghost is-pulled-left m-0 p-1" type="submit">
+                            <span class="blue-text has-text-weight-bold"><?= $likesNumber ?></span>
+                        </button>
+                    </form>
+                <?php else : ?>
+                    <button class="button is-ghost is-pulled-left m-0 p-1">
+                        <span class="blue-text has-text-weight-bold is-pulled-left"><?= $likesNumber ?></span>
                     </button>
-                </form>
-            <?php else : ?>
-                <button class="button is-ghost is-pulled-left m-0 p-1">
-                    <span class="blue-text has-text-weight-bold is-pulled-left"><?= $likesNumber ?></span>
-                </button>
-            <?php endif; ?>
-            <!-- Vérification, le comment est-il liké par l'utilisateur connecté ? -->
-            <?php $hasLiked = false; ?>
-            <?php foreach ($likes as $like) : ?>
-                <?php if ($_SESSION['ID_user'] == $like->getID_user()) : ?>
-                    <!-- Si oui, form de dislike -->
-                    <?php $hasLiked = true; ?>
-                    <form action="<?= LOCALPATH ?>like/dislikeComment" method="post">
-                        <input type="hidden" name="ID_like" value="<?= $like->getID_like() ?>">
+                <?php endif; ?>
+                <!-- Vérification, le comment est-il liké par l'utilisateur connecté ? -->
+                <?php $hasLiked = false; ?>
+                <?php foreach ($likes as $like) : ?>
+                    <?php if ($_SESSION['ID_user'] == $like->getID_user()) : ?>
+                        <!-- Si oui, form de dislike -->
+                        <?php $hasLiked = true; ?>
+                        <form action="<?= LOCALPATH ?>like/dislikeComment" method="post">
+                            <input type="hidden" name="ID_like" value="<?= $like->getID_like() ?>">
+                            <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
+                            <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
+                            <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
+                            <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
+                            <?php if ($isNested) : ?>
+                                <input type="hidden" name="isNested" value="1">
+                            <?php else : ?>
+                                <input type="hidden" name="isNested" value="0">
+                            <?php endif; ?>
+                            <button class="button is-ghost m-0 p-1 is-pulled-left" type="submit">
+                                <span class="icon">
+                                    <i class="fa-solid fa-thumbs-down" style="color: var(--blue);"></i>
+                                </span>
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if (!$hasLiked) : ?>
+                    <!-- Si non, formulaire caché de like -->
+                    <form action="<?= LOCALPATH ?>like/likeComment" method="post">
                         <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
                         <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
                         <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
@@ -65,43 +85,23 @@ $nestedCommentsNumber = count($nestedComments);
                         <?php endif; ?>
                         <button class="button is-ghost m-0 p-1 is-pulled-left" type="submit">
                             <span class="icon">
-                                <i class="fa-solid fa-thumbs-down" style="color: var(--blue);"></i>
+                                <i class="fa-solid fa-thumbs-up" style="color: var(--blue);"></i>
                             </span>
                         </button>
                     </form>
                 <?php endif; ?>
-            <?php endforeach; ?>
-            <?php if (!$hasLiked) : ?>
-                <!-- Si non, formulaire caché de like -->
-                <form action="<?= LOCALPATH ?>like/likeComment" method="post">
-                    <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
-                    <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
-                    <input type="hidden" name="ID_user" value="<?= $_SESSION['ID_user'] ?>">
-                    <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
-                    <?php if ($isNested) : ?>
-                        <input type="hidden" name="isNested" value="1">
-                    <?php else : ?>
-                        <input type="hidden" name="isNested" value="0">
-                    <?php endif; ?>
-                    <button class="button is-ghost m-0 p-1 is-pulled-left" type="submit">
-                        <span class="icon">
-                            <i class="fa-solid fa-thumbs-up" style="color: var(--blue);"></i>
-                        </span>
-                    </button>
-                </form>
-            <?php endif; ?>
 
-            <!-- Gestion des commentaires -->
-            <?php if ($isFirst) : ?>
-                <form action="<?= LOCALPATH ?>comment/showComments" method="post">
-                    <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
-                    <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
-                    <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
-                    <button class="button is-ghost is-pulled-left m-0 p-1" type="submit">
-                        <span class="blue-text is-pulled-left"><?= $nestedCommentsNumber ?> Commentaires</span>
-                    </button>
-                </form>
-            <?php endif; ?>
+                <!-- Gestion des commentaires -->
+                <?php if ($isFirst) : ?>
+                    <form action="<?= LOCALPATH ?>comment/showComments" method="post">
+                        <input type="hidden" name="ID_post" value="<?= $post->getID_post() ?>">
+                        <input type="hidden" name="ID_comment" value="<?= $comment->getID() ?>">
+                        <input type="hidden" name="origin" value="<?= $_SERVER['REQUEST_URI'] ?>">
+                        <button class="button is-ghost is-pulled-left m-0 p-1" type="submit">
+                            <span class="blue-text is-pulled-left"><?= $nestedCommentsNumber ?> Commentaires</span>
+                        </button>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>
