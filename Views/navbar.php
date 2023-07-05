@@ -4,7 +4,7 @@
             <img class="image is-48x48" id="logo" src="http://localhost<?php echo LOCALPATH ?>img/logo.png">
         </a>
         <div class="navbar-item">
-            <span id="logo-name" class="m-0 p-1">Bonnefete</span>
+            <a href="<?= LOCALPATH ?>post/feed" id="logo-name" class="m-0 p-1 has-text-black">Bonnefete</a>
         </div>
     </div>
 

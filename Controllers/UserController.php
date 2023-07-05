@@ -145,6 +145,23 @@ class UserController {
         }
     }
 
+    public function postPasswordEditAdmin() {
+        $user = $_POST;
+        $userId = $user['ID_user'];
+        $check = $this->userModel->editPasswordAdmin($user, $userId);
+        if ($check == "success") {
+            header('Location:../user/profile/' . $userId);
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
+    }
+
     public function getEdit($userId) {
         $user = $this->userModel->getUserById($userId);
         require_once 'Views/user/edit.php';
@@ -183,10 +200,6 @@ class UserController {
     public function postConfirm() {
         $action = $_POST['action'];
         $post = $_POST;
-        var_dump($_FILES);
-        $image=$_FILES['image'];
-        // Transfer $_FILES to a variable i can pass to another script
-
         require_once 'Views/user/confirm.php';
     }
 }

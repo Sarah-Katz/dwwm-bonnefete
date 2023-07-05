@@ -14,6 +14,7 @@ require_once 'Views/navbar.php';
         <div class="notification alert-danger has-text-centered has-text-danger"> <?= $error ?> </div>
     <?php endif ?>
 
+    <!-- Formulaire de modifications du mail et du username -->
     <form class="card" action="../confirm" method="post">
         <div class="card-content">
             <div class="field">
@@ -55,18 +56,22 @@ require_once 'Views/navbar.php';
         </div>
     </form>
 
+    <!-- Formulaire de modification de mdp -->
     <form class="card mt-2" action="../confirm" method="post">
         <div class="card-content">
 
-            <div class="field">
-                <label class="label" for="oldPassword">Ancien Mot de Passe:</label>
-                <p class="control has-icons-left">
-                    <input class="input" type="password" name="oldPassword" id="oldPassword" required>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-lock"></i>
-                    </span>
-                </p>
-            </div>
+            <!-- Condition pour le champ de l'ancien mdp (propriétaire et simple utilisateur) -->
+            <?php if ($_SESSION['ID_role'] == 1 || $_SESSION['ID_user'] == $user->getID_user()) : ?>
+                <div class="field">
+                    <label class="label" for="oldPassword">Ancien Mot de Passe:</label>
+                    <p class="control has-icons-left">
+                        <input class="input" type="password" name="oldPassword" id="oldPassword" required>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+            <?php endif ?>
 
             <div class="field">
                 <label class="label" for="password">Nouveau Mot de Passe:</label>
@@ -89,8 +94,12 @@ require_once 'Views/navbar.php';
             </div>
 
             <input type="hidden" name="ID_user" value="<?= $user->getID_user() ?>">
-            <input type="hidden" name="action" value="editPassword">
-
+            <!-- Condition d'envoi vers le bon écran de confirmation (les admins n'ont pas besoin de l'ancien mdp) -->
+            <?php if (($_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) && $_SESSION['ID_user'] != $user->getID_user()) : ?>
+                <input type="hidden" name="action" value="editPasswordAdmin">
+            <?php else : ?>
+                <input type="hidden" name="action" value="editPassword">
+            <?php endif ?>
             <div class="buttons is-centered">
                 <input class="button blue-background has-text-white" type="submit" value="Changer le mot de passe">
             </div>
