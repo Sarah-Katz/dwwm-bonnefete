@@ -28,6 +28,9 @@ class UserController {
         if ($check == "success") {
             $error = "success";
             require_once 'Views/user/login.php';
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
         } elseif ($check == "reactivated") {
             $error = "reactivated";
             require_once 'Views/user/login.php';

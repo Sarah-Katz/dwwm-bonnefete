@@ -16,6 +16,10 @@ class UserModel {
     }
 
     public function createUser($user) {
+        // Regex de vérification pour le mot de passe
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/', $user['password'])) {
+            return "regex";
+        }
         // Verification de la présence d'info dans les champs
         if ($user['email'] == "" || $user['password'] == "" || $user['name'] == "" || $user['passwordConfirm'] == "" || $user['emailConfirm'] == "") {
             return "empty";
