@@ -29,17 +29,8 @@ require_once 'Views/navbar.php'; ?>
             </div>
         </div>
         <?php if ($posts) : ?>
-            <?php foreach ($posts as $post) : ?>
                 <!-- Ses postes récents -->
-                <div class="card column is-4 is-offset-4 mb-2">
-                    <div class="card-content">
-                        <div class="content is-large has-border">
-                            <?= $post->getMessage() ?>
-                        </div>
-                        <h2 class="subtitle is-6 is-pulled-right">Par : <?= $user->getUsername() ?> le <?= $post->getPost_date() ?> </h2>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+                <?php require 'Views/post/post.php';?>
         <?php endif; ?>
     <?php endforeach; ?>
 <?php else : ?>
