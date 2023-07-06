@@ -83,6 +83,42 @@ INSERT INTO `likes` VALUES (29,40,9,NULL),(59,NULL,9,1),(78,42,5,NULL),(79,40,5,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `logs` (
+  `ID_log` int NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `ID_user` int DEFAULT NULL,
+  `ID_post` int DEFAULT NULL,
+  `ID_comment` int DEFAULT NULL,
+  `ID_admin` int DEFAULT NULL,
+  `timestamp` datetime NOT NULL,
+  PRIMARY KEY (`ID_log`),
+  KEY `ID_user_idx` (`ID_user`),
+  KEY `ID_post_idx` (`ID_post`),
+  KEY `ID_comment_idx` (`ID_comment`),
+  KEY `ID_admin_idx` (`ID_admin`),
+  CONSTRAINT `ID_admin` FOREIGN KEY (`ID_admin`) REFERENCES `users` (`ID_user`),
+  CONSTRAINT `ID_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
+  CONSTRAINT `ID_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`),
+  CONSTRAINT `ID_user` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `logs`
+--
+
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `posts`
 --
 
@@ -177,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-06 14:10:35
+-- Dump completed on 2023-07-06 16:10:37
