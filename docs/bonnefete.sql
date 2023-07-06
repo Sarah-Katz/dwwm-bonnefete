@@ -98,7 +98,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`ID_post`),
   KEY `woner_idx` (`ID_user`),
   CONSTRAINT `woner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc',NULL),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble',NULL),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(34,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(38,5,'2023-07-01 02:32:19','Test de modification du message',NULL),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !',NULL),(42,16,'2023-07-04 09:11:20','Poste du 04/07',NULL);
+INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc',NULL),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble',NULL),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(34,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(38,5,'2023-07-01 02:32:19','Test de modification du message',NULL),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !',NULL),(42,16,'2023-07-04 09:11:20','Poste du 04/07',NULL),(44,9,'2023-07-04 11:42:44','bghnhbvgbnh,junn',NULL),(45,9,'2023-07-04 11:43:48','La photo de david','img/userUploads/64a423d6046a3.jpg'),(49,9,'2023-07-04 02:29:35','jkuiy','img/userUploads/64a410af01fc0.jpg'),(50,9,'2023-07-04 03:40:04','Test d\'image de modification d\'image 2','img/userUploads/64a4238b44913.jpg');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,12 +149,13 @@ CREATE TABLE `users` (
   `username` varchar(25) NOT NULL,
   `register_date` datetime NOT NULL,
   `password` varchar(255) NOT NULL,
-  `is_active` tinyint NOT NULL DEFAULT '1',
+  `is_active` tinyint NOT NULL DEFAULT '0',
+  `activation_key` varchar(255) NOT NULL,
   PRIMARY KEY (`ID_user`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `role_idx` (`ID_role`),
   CONSTRAINT `role` FOREIGN KEY (`ID_role`) REFERENCES `roles` (`ID_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +164,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,2,'test@test.com','TEST','2023-06-27 00:00:00','',1),(2,1,'jean-marc@gmail.com','Jean-marc','2023-06-28 09:33:49','$2y$10$VovjGGdvTQW16JF7Gc0w0O7CoyIWX6PrLwl/sxV.MyEnfZH2frAA6',1),(4,2,'samuel-denomme@hotmail.com','BUNNY','2023-06-30 11:16:55','$2y$10$sbwbrSEJdPsESnwwK11IdOBhbRM6dyDEb6cmUpsrlo9FNrBHnPyvG',1),(5,3,'sarahkatz59@gmail.com','Sarah katz','2023-06-30 03:19:13','$2y$10$Ptj7s0gEYOGCRm0fC13j8uuhnhtot4n9Icg7D9wfr.glQkEy4estS',1),(6,1,'test1@test.com','Utilisateur désactivé','2023-06-30 05:08:04','$2y$10$tleczDPANCVsogYGeI/zRelCIYzRpCQhHUFuxe2HlZ7FZ8Yv.ojd6',0),(9,1,'ulysse.debove@gmail.com','ULYSSE DEBOVE','2023-06-30 06:52:35','$2y$10$T1RC5jEJDBB32qqCtIYWieXItPcGceAA/pmsloJcQ.qpy3Jk0sRbK',1),(10,1,'rfg@gmail.com','Utilisateur désactivé','2023-06-30 06:56:33','$2y$10$g9wySHYYBRmX9HPCYdOdKOzE69phoUg0Kz/nJRB7vm1F3c/31fMp2',0),(11,1,'Herge@gmail.com','Hergé','2023-06-30 06:58:35','$2y$10$lsy06L2nOwmc3ZUb5bAj1Oc0b2jSnkfhFVKfBdUSZj8kLoAOY1YQC',1),(12,1,'antoine-marc@gmail.com','Antoine Marc','2023-06-30 06:59:35','$2y$10$hOhFtQNVtJm49XPa0dDl8.4iJme3sVuLzoARpJz8OOB.0J2c44NoK',1),(13,1,'dfght@scdfg.com','Utilisateur désactivé','2023-06-30 07:01:14','$2y$10$KTpep.zqCeDr4wuODtpRAew5/e2tGe/hiUzyKMOtv7TGn2A8Po8ru',0),(14,1,'sdfeqrtg@oithdfgj.dfgiouhj','Utilisateur désactivé','2023-06-30 07:03:59','$2y$10$Oh0Ql0kUgs3x1tD4.9mpTeC2t9AcfxbGJO/WdUcugSGjW7zLEtzsO',0),(15,1,'xcdaazrety@kJHG.COM','Utilisateur désactivé','2023-06-30 07:04:49','$2y$10$29CYYmN/t9Dw7DbTB3N8e.g5H96zj6vYMsVXdWYdrL4VMH7ZDYIue',0),(16,1,'cvbgh@dfxvbdfg.fr','JUJUJU','2023-07-04 09:11:09','$2y$10$tgxO85Bb8Z8DtYTyqeKhcOc4c45iVT8z8YSjGZQZhEcrSwK4PJZp6',1);
+INSERT INTO `users` VALUES (1,2,'test@test.com','TEST','2023-06-27 00:00:00','',1,''),(2,1,'jean-marc@gmail.com','Jean-marc','2023-06-28 09:33:49','$2y$10$VovjGGdvTQW16JF7Gc0w0O7CoyIWX6PrLwl/sxV.MyEnfZH2frAA6',1,''),(5,3,'sarahkatz59@gmail.com','Sarah katz','2023-06-30 03:19:13','$2y$10$Ptj7s0gEYOGCRm0fC13j8uuhnhtot4n9Icg7D9wfr.glQkEy4estS',1,''),(6,1,'test1@test.com','Utilisateur désactivé','2023-06-30 05:08:04','$2y$10$tleczDPANCVsogYGeI/zRelCIYzRpCQhHUFuxe2HlZ7FZ8Yv.ojd6',0,''),(9,1,'ulysse.debove@gmail.com','ULYSSE DEBOVE','2023-06-30 06:52:35','$2y$10$T1RC5jEJDBB32qqCtIYWieXItPcGceAA/pmsloJcQ.qpy3Jk0sRbK',1,''),(10,1,'rfg@gmail.com','Utilisateur désactivé','2023-06-30 06:56:33','$2y$10$g9wySHYYBRmX9HPCYdOdKOzE69phoUg0Kz/nJRB7vm1F3c/31fMp2',0,''),(11,1,'Herge@gmail.com','Hergé','2023-06-30 06:58:35','$2y$10$lsy06L2nOwmc3ZUb5bAj1Oc0b2jSnkfhFVKfBdUSZj8kLoAOY1YQC',1,''),(12,1,'antoine-marc@gmail.com','Antoine Marc','2023-06-30 06:59:35','$2y$10$hOhFtQNVtJm49XPa0dDl8.4iJme3sVuLzoARpJz8OOB.0J2c44NoK',1,''),(13,1,'dfght@scdfg.com','Utilisateur désactivé','2023-06-30 07:01:14','$2y$10$KTpep.zqCeDr4wuODtpRAew5/e2tGe/hiUzyKMOtv7TGn2A8Po8ru',0,''),(14,1,'sdfeqrtg@oithdfgj.dfgiouhj','Utilisateur désactivé','2023-06-30 07:03:59','$2y$10$Oh0Ql0kUgs3x1tD4.9mpTeC2t9AcfxbGJO/WdUcugSGjW7zLEtzsO',0,''),(15,1,'xcdaazrety@kJHG.COM','Utilisateur désactivé','2023-06-30 07:04:49','$2y$10$29CYYmN/t9Dw7DbTB3N8e.g5H96zj6vYMsVXdWYdrL4VMH7ZDYIue',0,''),(16,1,'cvbgh@dfxvbdfg.fr','JUJUJU','2023-07-04 09:11:09','$2y$10$tgxO85Bb8Z8DtYTyqeKhcOc4c45iVT8z8YSjGZQZhEcrSwK4PJZp6',1,''),(20,1,'nofus59@gmail.com','mhioersg','2023-07-06 01:22:06','$2y$10$QAUsCfvObBOMg6.2Hi6VIOGDRQo65AYPPTLWlq2BLkV4.b8bSpGkG',1,'$2y$10$ZaLrtd.La3KycnqnYyDTj.QPPWRk6t3xiLXzg9kA6Tqy/7z/cxlYi'),(22,1,'samuel-denomme@hotmail.com','SAM GUEULE FORT','2023-07-06 01:33:49','$2y$10$lBXFx8lJSkG8kbfZe0bHz.5p.CgSRdyAm8oBjvQDedYSKwM9wingK',0,'$2y$10$/x9XP/3NFQ2peBFg59YCOOQWo9CAwaU64qMY83ogckYN4WXV6jBq.');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -176,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-04 11:32:29
+-- Dump completed on 2023-07-06 14:10:35

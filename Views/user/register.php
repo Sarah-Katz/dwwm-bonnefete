@@ -7,7 +7,7 @@
         <div class="notification alert-danger has-text-centered has-text-danger"> <?= $error ?> </div>
     <?php endif ?>
 
-    <form class="card" action="../user/register" method="post">
+    <form class="card" action="<?= LOCALPATH ?>/user/register" method="post">
         <div class="card-content">
             <div class="field">
                 <label class="label" for="email">Email:</label>
@@ -52,7 +52,7 @@
             <div class="field">
                 <label class="label" for="name">Nom d'utilisateur:</label>
                 <p class="control has-icons-left">
-                    <input class="input" type="text" name="name" id="name" required>
+                    <input class="input" type="text" name="name" id="name" required maxlength="25">
                     <span class="icon is-small is-left">
                         <i class="fas fa-solid fa-user"></i>
                     </span>
