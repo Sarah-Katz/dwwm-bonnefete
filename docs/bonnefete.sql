@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `ID_post` int NOT NULL,
-  `ID_user` int NOT NULL,
+  `ID_post` int DEFAULT NULL,
+  `ID_user` int DEFAULT NULL,
   `ID_comment` int DEFAULT NULL,
   `message` varchar(200) NOT NULL,
   `timestamp` datetime NOT NULL,
@@ -34,10 +34,10 @@ CREATE TABLE `comments` (
   KEY `comment_owner_idx` (`ID_user`),
   KEY `owning_post_idx` (`ID_post`),
   KEY `owning_comment_idx` (`ID_comment`),
-  CONSTRAINT `comment_owner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`),
-  CONSTRAINT `owning_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
-  CONSTRAINT `owning_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `comment_owner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `owning_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `owning_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,40,5,NULL,'Test commentaires nesté modifé','2023-07-03 11:12:33',NULL),(3,40,9,1,'test 3','2023-07-03 01:41:49',NULL),(4,40,5,1,'test','2023-07-03 01:55:41',NULL),(5,40,5,1,'defrgvhb','2023-07-03 01:56:59',NULL),(6,40,5,1,'ghfdd','2023-07-03 01:57:34',NULL),(7,40,5,1,'dfgh','2023-07-03 01:57:47',NULL),(10,40,5,NULL,'mkduflgh','2023-07-03 02:31:08',NULL),(11,40,5,NULL,'ppppp','2023-07-03 02:34:07',NULL),(12,38,5,NULL,'Test de comm','2023-07-03 02:36:28',NULL),(13,38,5,NULL,'Test de comm','2023-07-03 02:36:44',NULL),(14,38,5,NULL,'kujyf','2023-07-03 02:39:08',NULL),(15,2,5,NULL,'gvnhhbjuiko','2023-07-03 02:57:39',NULL),(16,2,5,NULL,'gvnhhbjuiko','2023-07-03 02:57:55',NULL),(17,2,5,NULL,'nb, n,gbnb','2023-07-03 03:01:11',NULL),(18,2,5,NULL,'hjyuguu_hhyhg','2023-07-03 03:01:35',NULL),(19,31,5,NULL,'dfxcgvhb','2023-07-03 03:01:57',NULL),(20,31,5,NULL,'cvgfgbgn,','2023-07-03 03:03:58',NULL),(21,2,5,NULL,'dfcvgbghvn','2023-07-03 03:04:11',NULL),(22,2,5,NULL,'mlihjkrgghrmjl','2023-07-03 03:04:15',NULL),(23,32,5,NULL,'Envois','2023-07-03 03:04:32',NULL),(24,40,5,NULL,'Le meilleur commentaire du monde','2023-07-03 03:04:45',NULL);
+INSERT INTO `comments` VALUES (1,40,5,NULL,'Test commentaires nesté modifé','2023-07-03 11:12:33',NULL),(3,40,9,1,'test 3','2023-07-03 01:41:49',NULL),(4,40,5,1,'test','2023-07-03 01:55:41',NULL),(5,40,5,1,'defrgvhb','2023-07-03 01:56:59',NULL),(6,40,5,1,'ghfdd','2023-07-03 01:57:34',NULL),(7,40,5,1,'dfgh','2023-07-03 01:57:47',NULL),(10,40,5,NULL,'modifié','2023-07-03 02:31:08',NULL),(11,40,5,NULL,'ppppp','2023-07-03 02:34:07',NULL),(12,38,5,NULL,'Test de comm','2023-07-03 02:36:28',NULL),(16,2,5,NULL,'gvnhhbjuiko','2023-07-03 02:57:55',NULL),(17,2,5,NULL,'nb, n,gbnb','2023-07-03 03:01:11',NULL),(18,2,5,NULL,'hjyuguu_hhyhg','2023-07-03 03:01:35',NULL),(19,31,5,NULL,'dfxcgvhb','2023-07-03 03:01:57',NULL),(20,31,5,NULL,'cvgfgbgn,','2023-07-03 03:03:58',NULL),(21,2,5,NULL,'dfcvgbghvn','2023-07-03 03:04:11',NULL),(22,2,5,NULL,'mlihjkrgghrmjl','2023-07-03 03:04:15',NULL),(23,32,5,NULL,'Envois','2023-07-03 03:04:32',NULL),(24,40,5,NULL,'Le meilleur commentaire du monde','2023-07-03 03:04:45',NULL);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,16 +60,16 @@ DROP TABLE IF EXISTS `likes`;
 CREATE TABLE `likes` (
   `ID_like` int NOT NULL AUTO_INCREMENT,
   `ID_post` int DEFAULT NULL,
-  `ID_user` int NOT NULL,
+  `ID_user` int DEFAULT NULL,
   `ID_comment` int DEFAULT NULL,
   PRIMARY KEY (`ID_like`),
   KEY `like_user_idx` (`ID_user`),
   KEY `like_post_idx` (`ID_post`),
   KEY `like_comment_idx` (`ID_comment`),
-  CONSTRAINT `like_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
-  CONSTRAINT `like_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`),
-  CONSTRAINT `like_user` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `like_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `like_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `like_user` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +78,7 @@ CREATE TABLE `likes` (
 
 LOCK TABLES `likes` WRITE;
 /*!40000 ALTER TABLE `likes` DISABLE KEYS */;
-INSERT INTO `likes` VALUES (29,40,9,NULL),(59,NULL,9,1),(78,42,5,NULL),(79,40,5,NULL);
+INSERT INTO `likes` VALUES (29,40,9,NULL),(59,NULL,9,1),(79,40,5,NULL);
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,23 +90,15 @@ DROP TABLE IF EXISTS `logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `logs` (
-  `ID_log` int NOT NULL,
+  `ID_log` int NOT NULL AUTO_INCREMENT,
   `type` varchar(45) NOT NULL,
   `ID_user` int DEFAULT NULL,
   `ID_post` int DEFAULT NULL,
   `ID_comment` int DEFAULT NULL,
   `ID_admin` int DEFAULT NULL,
   `timestamp` datetime NOT NULL,
-  PRIMARY KEY (`ID_log`),
-  KEY `ID_user_idx` (`ID_user`),
-  KEY `ID_post_idx` (`ID_post`),
-  KEY `ID_comment_idx` (`ID_comment`),
-  KEY `ID_admin_idx` (`ID_admin`),
-  CONSTRAINT `ID_admin` FOREIGN KEY (`ID_admin`) REFERENCES `users` (`ID_user`),
-  CONSTRAINT `ID_comment` FOREIGN KEY (`ID_comment`) REFERENCES `comments` (`ID`),
-  CONSTRAINT `ID_post` FOREIGN KEY (`ID_post`) REFERENCES `posts` (`ID_post`),
-  CONSTRAINT `ID_user` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`ID_log`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,6 +107,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES (18,'commentCreate',5,NULL,28,NULL,'2023-07-06 11:25:29'),(20,'userLogout',5,NULL,NULL,NULL,'2023-07-06 11:29:42'),(21,'userLogin',5,NULL,NULL,NULL,'2023-07-06 11:29:48'),(22,'commentCreate',5,NULL,29,NULL,'2023-07-06 11:30:27'),(25,'commentDeleteAdmin',NULL,NULL,15,5,'2023-07-06 11:33:48'),(26,'commentDeleteAdmin',NULL,NULL,14,5,'2023-07-06 11:33:54'),(27,'postUpdate',5,38,NULL,NULL,'2023-07-06 11:34:50'),(28,'commentUpdateAdmin',NULL,NULL,10,NULL,'2023-07-06 11:36:19'),(29,'commentUpdateAdmin',NULL,NULL,10,5,'2023-07-06 11:36:46');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,13 +120,13 @@ DROP TABLE IF EXISTS `posts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `posts` (
   `ID_post` int NOT NULL AUTO_INCREMENT,
-  `ID_user` int NOT NULL,
+  `ID_user` int DEFAULT NULL,
   `post_date` datetime NOT NULL,
   `message` varchar(200) NOT NULL,
   `url_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_post`),
   KEY `woner_idx` (`ID_user`),
-  CONSTRAINT `woner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`)
+  CONSTRAINT `woner` FOREIGN KEY (`ID_user`) REFERENCES `users` (`ID_user`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -143,7 +136,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc',NULL),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble',NULL),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(34,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(38,5,'2023-07-01 02:32:19','Test de modification du message',NULL),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !',NULL),(42,16,'2023-07-04 09:11:20','Poste du 04/07',NULL),(44,9,'2023-07-04 11:42:44','bghnhbvgbnh,junn',NULL),(45,9,'2023-07-04 11:43:48','La photo de david','img/userUploads/64a423d6046a3.jpg'),(49,9,'2023-07-04 02:29:35','jkuiy','img/userUploads/64a410af01fc0.jpg'),(50,9,'2023-07-04 03:40:04','Test d\'image de modification d\'image 2','img/userUploads/64a4238b44913.jpg');
+INSERT INTO `posts` VALUES (2,2,'2023-06-29 00:00:00','Je s\'appelles Jean-Marc',NULL),(31,2,'2023-06-29 00:00:00','Message pour tester à quoi ça ressemble',NULL),(32,2,'2023-06-29 00:00:00','Message un peu plus long pour tester à quoi ça ressemble',NULL),(38,5,'2023-07-01 02:32:19','Test de modification du message 22',''),(40,9,'2023-07-01 07:15:38','Tugdual est le meilleur chien !',NULL),(45,9,'2023-07-04 11:43:48','La photo de david','img/userUploads/64a423d6046a3.jpg'),(50,9,'2023-07-04 03:40:04','Test d\'image de modification d\'image 2','img/userUploads/64a4238b44913.jpg');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-06 16:10:37
+-- Dump completed on 2023-07-06 23:38:55
