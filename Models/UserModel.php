@@ -5,6 +5,8 @@ namespace App\Models;
 require_once  'Database.php';
 require_once 'Models/User.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use App\Database;
 use PDO;
 
@@ -43,26 +45,33 @@ class UserModel {
                 return "doubleEmail";
             } else {
                 // Si l'utilisateur existe déjà et n'est pas actif
+                $key = rand(1, 99999);
+                $this->sendVerificationMail($user, $key);
                 $password = password_hash($user['password'], PASSWORD_DEFAULT);
-                $query = $this->connection->getPdo()->prepare('UPDATE users SET email = :email, password = :password, username = :name, is_active = :is_active WHERE email = :email');
+                $activation_key = password_hash($key, PASSWORD_DEFAULT);
+                $query = $this->connection->getPdo()->prepare('UPDATE users SET email = :email, password = :password, username = :name, activation_key = :activation_key WHERE email = :email');
                 $query->execute([
                     'email' => $user['email'],
                     'password' => $password,
                     'name' => $user['name'],
-                    'is_active' => 1
+                    'activation_key' => $activation_key
                 ]);
                 return "reactivated";
             }
         }
         // Enregistrement normal d'un utilisateur
+        $key = rand(1, 99999);
+        $this->sendVerificationMail($user, $key);
         $password = password_hash($user['password'], PASSWORD_DEFAULT);
+        $activation_key = password_hash($key, PASSWORD_DEFAULT);
         try {
-            $query = $this->connection->getPdo()->prepare("INSERT INTO users (email, password, username, register_date) VALUES (:email, :password, :username, :register_date)");
+            $query = $this->connection->getPdo()->prepare("INSERT INTO users (email, password, username, register_date, activation_key) VALUES (:email, :password, :username, :register_date, :activation_key)");
             $query->execute([
                 'email' => $user['email'],
                 'password' => $password,
                 'username' => strtoupper($user['name']),
-                'register_date' => date('y-m-d h:i:s')
+                'register_date' => date('y-m-d h:i:s'),
+                'activation_key' => $activation_key
             ]);
             return "success";
         } catch (\PDOException $e) {
@@ -254,6 +263,47 @@ class UserModel {
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
+        }
+    }
+
+    private function sendVerificationMail($user, $key) {
+        $email = $user['email'];
+
+        // Configuration de PHPMailer pour l'envoi des emails
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->Port       = 465;
+        $mail->SMTPAuth   = true;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Username   = MAIL_USER;
+        $mail->Password   = MAIL_PASS;
+
+        // Contenu
+        $mail->setFrom('ne-pas-repondre@bonnefete.fr');
+        $mail->addAddress($email, $user['name']);
+        $mail->isHTML(true);
+        $mail->Subject = 'Votre lien de verification BonneFete';
+        $mail->Body    = '
+        <h1>BonneFete</h1>
+        <h2>' . $user['name'] . ', Votre lien de verification</h2>
+        <a href="http://localhost' . LOCALPATH . 'user/verify/' . $key . '/' . $email . '">Cliquez sur ce lien pour vérifier votre adresse e-mail</a>
+        ';
+        try {
+            $mail->send();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function verifyUser($key, $email) {
+        $queryKey = $this->connection->getPdo()->prepare("SELECT activation_key FROM users WHERE email = :email");
+        $queryKey->execute(['email' => $email]);
+        $keyBdd = $queryKey->fetch();
+        if (password_verify($key, $keyBdd['activation_key'])) {
+            $query = $this->connection->getPdo()->prepare("UPDATE users SET is_active = 1 WHERE email = :email");
+            $query->execute(['email' => $email]);
+            return "success";
         }
     }
 }

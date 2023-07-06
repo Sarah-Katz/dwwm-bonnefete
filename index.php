@@ -1,4 +1,6 @@
-<?php require_once 'vendor/autoload.php';
+<?php
+
+require_once 'vendor/autoload.php';
 
 session_start();
 
@@ -14,6 +16,8 @@ define("DB_NAME", $_ENV['DB_NAME']);
 define("DB_USER", $_ENV['DB_USER']);
 define("DB_PASS", $_ENV['DB_PASS']);
 define("LOCALPATH", $_ENV['LOCALPATH']);
+define("MAIL_USER", $_ENV['MAIL_USER']);
+define("MAIL_PASS", $_ENV['MAIL_PASS']);
 
 // Lancement du Router
 $requestUri = $_SERVER['REQUEST_URI'];

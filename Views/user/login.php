@@ -4,13 +4,15 @@
 
     <h1 class="title blue-text has-text-centered">Connectez-vous !</h1>
     <?php if ($error === "success") : ?>
-        <div class="notification alert-success has-text-centered has-text-success"> Compte créé avec succès, merci de vous connecter </div>
+        <div class="notification alert-success has-text-centered has-text-success"> Compte créé avec succès, merci vérifier votre compte via le lien envoyé à votre adresse email </div>
+    <?php elseif ($error === "activated") : ?>
+        <div class="notification alert-success has-text-centered has-text-success"> Compte activé avec succès, merci de vous connecter </div>
     <?php elseif ($error === "reactivated") : ?>
-        <div class="notification alert-success has-text-centered has-text-success"> Compte réactivé avec succès, merci de vous connecter </div>
+        <div class="notification alert-success has-text-centered has-text-success"> Mail de réactivation envoyé avec succès, merci de vérifier votre adresse email via le lien </div>
     <?php elseif ($error) : ?>
         <div class="notification alert-danger has-text-centered has-text-danger"> <?= $error ?> </div>
     <?php endif; ?>
-    <form class="card" action="../user/login" method="post">
+    <form class="card" action="<?= LOCALPATH ?>/user/login" method="post">
         <div class="card-content">
             <div class="field">
                 <label class="label has-text-left" for="email">Email:</label>

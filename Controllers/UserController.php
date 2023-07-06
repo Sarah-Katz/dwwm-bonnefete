@@ -49,6 +49,17 @@ class UserController {
         }
     }
 
+    public function getVerify($key, $email) {
+        $check = $this->userModel->verifyUser($key, $email);
+        if ($check == "success") {
+            $error = "activated";
+            require_once 'Views/user/login.php';
+        } else {
+            $error = "Une erreur s'est produite lors de l'activation de votre compte";
+            require_once 'Views/user/register.php';
+        }
+    }
+
     public function getLogin() {
         $error = "";
         require_once 'Views/user/login.php';
@@ -65,7 +76,7 @@ class UserController {
             $error = "Aucun compte trouvé avec cet email";
             require_once 'Views/user/login.php';
         } elseif ($check === "inactive") {
-            $error = "Votre compte est désactivé, merci de vous réinscrire avec cet email";
+            $error = "Votre compte est désactivé, ou vous n'avez pas encore validé votre email";
             require_once 'Views/user/login.php';
         } else {
             // Rediriger vers le login avec erreur
