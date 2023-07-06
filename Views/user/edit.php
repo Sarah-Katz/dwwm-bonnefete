@@ -32,4 +32,5 @@
 <!-- Bouton de suppréssion du profil -->
 <a href="../delete/<?php echo $user->getID_user() ?>" class="button is-danger">Effacer le profil</a>
 
+<?php require_once 'Views/logButton.php'; ?>
 <?php require_once 'Views/footer.php'; ?>

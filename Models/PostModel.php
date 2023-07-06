@@ -4,15 +4,18 @@ namespace App\Models;
 
 require_once 'Database.php';
 require_once 'Models/Post.php';
+require_once 'Models/LogModel.php';
 
 use App\Database;
 use PDO;
 
 class PostModel {
     private $connection;
+    private $logger;
 
     public function __construct() {
         $this->connection = new Database();
+        $this->logger = new LogModel();
     }
 
     public function createPost($post) {
@@ -24,6 +27,8 @@ class PostModel {
                 ':message' => $post['message'],
                 ':url_image' => $post['url_image']
             ));
+            $id = $this->connection->getPdo()->lastInsertId();
+            $this->logger->createLog(array("type" => "postCreate", 'ID_post' => $id, "ID_user" => $post['ID_user'], "ID_comment" => null, "ID_admin" => null));
             return "Bien enregistré";
         } catch (\PDOException $e) {
             echo $e->getMessage();
@@ -63,6 +68,11 @@ class PostModel {
                 ':message' => $post['message'],
                 ':url_image' => $post['url_image']
             ]);
+            if (($_SESSION['ID_role'] == 1) || ($_SESSION['ID_role'] != 1 && $_SESSION['ID_user'] == $post['ID_user'])) {
+                $this->logger->createLog(array("type" => "postUpdate", 'ID_post' => $id, "ID_user" => $post['ID_user'], "ID_comment" => null, "ID_admin" => null));
+            } else {
+                $this->logger->createLog(array("type" => "postUpdateAdmin", 'ID_post' => $id, "ID_admin" => $_SESSION['ID_user'], "ID_comment" => null, "ID_admin" => null));
+            }
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
@@ -75,6 +85,11 @@ class PostModel {
             $query->execute([
                 ':ID_post' => $id
             ]);
+            if (($_SESSION['ID_role'] == 1) || ($_SESSION['ID_role'] != 1 && $_SESSION['ID_user'] == $id)) {
+                $this->logger->createLog(array("type" => "postDelete", 'ID_post' => $id, "ID_user" =>$id, "ID_comment" => null, "ID_admin" => null));
+            } else {
+                $this->logger->createLog(array("type" => "postDeleteAdmin", 'ID_post' => $id, "ID_admin" => $_SESSION['ID_user'], "ID_comment" => null, "ID_user" => null));
+            }
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";

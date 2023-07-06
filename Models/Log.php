@@ -15,12 +15,14 @@ class Log {
         return $this->ID_log;
     }
 
-    public function getStyle(): string {
+    public function getType(): string {
         return $this->type;
     }
 
     public function getTimestamp(): string {
-        return $this->timestamp;
+        $date = strtotime($this->timestamp);
+        $date = date('d/m/Y à h:m:s', $date);
+        return "Le " . $date;
     }
 
     public function getID_user():?int {

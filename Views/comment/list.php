@@ -75,4 +75,5 @@ foreach ($comments as $comment) {
     require 'Views/comment/comment.php';
 } ?>
 
+<?php require_once 'Views/logButton.php'; ?>
 <?php require_once 'Views/footer.php'; ?>

@@ -15,8 +15,8 @@ class LogModel {
         $this->connection = new Database();
     }
 
-    public function createLog($log) {
-            $query = $this->connection->getPdo()->prepare('INSERT INTO log (type, timestamp, ID_user, ID_post, ID_comment, ID_admin) VALUES (:type, :timestamp, :ID_user, :ID_post, :ID_comment, :ID_admin)');
+    public function createLog(array $log) {
+            $query = $this->connection->getPdo()->prepare('INSERT INTO logs (type, timestamp, ID_user, ID_post, ID_comment, ID_admin) VALUES (:type, :timestamp, :ID_user, :ID_post, :ID_comment, :ID_admin)');
             $query->execute([
                 ':type' => $log['type'],
                 ':timestamp' => date('y-m-d h:i:s'),
@@ -25,11 +25,12 @@ class LogModel {
                 ':ID_comment' => $log['ID_comment'],
                 ':ID_admin' => $log['ID_admin']
             ]);
+            var_dump($query);
     }
 
     public function getLogs() {
-        $query = $this->connection->getPdo()->prepare('SELECT type, timestamp, ID_user, ID_post, ID_comment, ID_admin FROM log ORDER BY timestamp DESC');
+        $query = $this->connection->getPdo()->prepare('SELECT ID_log, type, timestamp, ID_user, ID_post, ID_comment, ID_admin FROM logs ORDER BY ID_log DESC');
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Log");
     }
 }

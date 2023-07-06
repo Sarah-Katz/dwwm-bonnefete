@@ -132,4 +132,5 @@ require_once 'Views/navbar.php';
     </div>
 <?php endif; ?>
 
+<?php require_once 'Views/logButton.php'; ?>
 <?php require_once 'Views/footer.php'; ?>
