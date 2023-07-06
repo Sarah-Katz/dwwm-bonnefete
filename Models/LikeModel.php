@@ -4,15 +4,18 @@ namespace App\Models;
 
 require_once 'Database.php';
 require_once 'Models/Like.php';
+require_once 'Models/LogModel.php';
 
 use App\Database;
 use PDO;
 
 class LikeModel {
     private $connection;
+    private $logger;
 
     public function __construct() {
         $this->connection = new Database();
+        $this->logger = new LogModel();
     }
 
     public function createLike($like) {
@@ -27,6 +30,8 @@ class LikeModel {
                 ':ID_post' => $like['ID_post'],
                 ':ID_comment' => $like['ID_comment']
             ));
+            $id = $this->connection->getPdo()->lastInsertId();
+            $this->logger->createLog(array("type" => "likeCreate", "id" => $id, "ID_user" => $like['ID_user'], "ID_post" => $like['ID_post'], "ID_comment" => $like['ID_comment'], "ID_admin" => null));
             return "Bien enregistré";
         } catch (\PDOException $e) {
             echo $e->getMessage();
@@ -94,10 +99,12 @@ class LikeModel {
 
     public function deleteLike($id) {
         try {
+            $infos = $this->getLikeById($id);
             $query = $this->connection->getPdo()->prepare("DELETE FROM likes WHERE ID_like = :ID_like");
             $query->execute([
                 ':ID_like' => $id
             ]);
+            $this->logger->createLog(array("type" => "likeDelete", "id" => $id, "ID_user" => $infos->getID_user(), "ID_post" => $infos->getID_post(), "ID_comment" => $infos->getID_comment(), "ID_admin" => null));
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";

@@ -4,6 +4,7 @@ namespace App\Models;
 
 require_once  'Database.php';
 require_once 'Models/User.php';
+require_once 'Models/LogModel.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -12,9 +13,11 @@ use PDO;
 
 class UserModel {
     private $connection;
+    private $logger;
 
     public function __construct() {
         $this->connection = new Database();
+        $this->logger = new LogModel();
     }
 
     public function createUser($user) {
@@ -73,6 +76,8 @@ class UserModel {
                 'register_date' => date('y-m-d h:i:s'),
                 'activation_key' => $activation_key
             ]);
+            $id = $this->connection->getPdo()->lastInsertId();
+            $this->logger->createLog(array("type" => "userCreate", "ID_user" =>$id, "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
             return "success";
         } catch (\PDOException $e) {
             echo $e->getMessage();
@@ -130,6 +135,11 @@ class UserModel {
                 'username' => $user['username'],
                 'id' => $userId
             ]);
+            if ($_SESSION['ID_role'] == 1) {
+                $this->logger->createLog(array("type" => "userEdit", "ID_user" => $userId, "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
+            } else {
+                $this->logger->createLog(array("type" => "userEditAdmin", "ID_user" => $userId, "ID_post" => null, "ID_comment" => null, "ID_admin" => $_SESSION['ID_user']));
+            }
             return "success";
         } catch (\PDOException $e) {
             echo $e->getMessage();
@@ -167,6 +177,7 @@ class UserModel {
             'password' => password_hash($user['password'], PASSWORD_DEFAULT),
             'id' => $userId
         ]);
+        $this->logger->createLog(array("type" => "userEditPass", "ID_user" =>$userId, "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
         return "success";
     }
 
@@ -189,6 +200,7 @@ class UserModel {
             'password' => password_hash($user['password'], PASSWORD_DEFAULT),
             'id' => $userId
         ]);
+        $this->logger->createLog(array("type" => "userEditPassAdmin", "ID_user" => $userId, "ID_post" => null, "ID_comment" => null, "ID_admin" => $_SESSION['ID_user']));
         return "success";
     }
 
@@ -198,6 +210,11 @@ class UserModel {
             $query->execute([
                 'id' => $id
             ]);
+            if ($_SESSION['ID_role'] == 1) {
+                $this->logger->createLog(array("type" => "userDelete", "ID_user" =>$id, "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
+            } else {
+                $this->logger->createLog(array("type" => "userDeleteAdmin", "ID_user" => $id, "ID_post" => null, "ID_comment" => null, "ID_admin" => $_SESSION['ID_user']));
+            }
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
@@ -227,6 +244,7 @@ class UserModel {
                 $_SESSION['ID_user'] = $userCo['ID_user'];
                 $_SESSION['ID_role'] = $userCo['ID_role'];
                 $res =  "true";
+                $this->logger->createLog(array("type" => "userLogin", "ID_user" => $userCo['ID_user'], "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
             } else {
                 $res = "false";
             }
@@ -248,6 +266,7 @@ class UserModel {
             $query->execute([
                 'ID_user' => $id
             ]);
+            $this->logger->createLog(array("type" => "userMakeModerator", "ID_user" => $id, "ID_post" => null, "ID_comment" => null, "ID_admin" => $_SESSION['ID_user']));
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
@@ -260,6 +279,7 @@ class UserModel {
             $query->execute([
                 'ID_user' => $id
             ]);
+            $this->logger->createLog(array("type" => "userDemoteModerator", "ID_user" => $id, "ID_post" => null, "ID_comment" => null, "ID_admin" => $_SESSION['ID_user']));
         } catch (\PDOException $e) {
             echo $e->getMessage();
             return " une erreur est survenue";
@@ -303,6 +323,7 @@ class UserModel {
         if (password_verify($key, $keyBdd['activation_key'])) {
             $query = $this->connection->getPdo()->prepare("UPDATE users SET is_active = 1 WHERE email = :email");
             $query->execute(['email' => $email]);
+            $this->logger->createLog(array("type" => "userVerify", "ID_user" => $_SESSION['ID_user'], "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
             return "success";
         }
     }

@@ -32,10 +32,6 @@
   border: none;
 }
 
-.level-is-shrinkable {
-  flex-shrink: 1 !important;
-}
-
 @media only screen and (min-width: 1000px) {
   div#user-infos {
     position: absolute !important;

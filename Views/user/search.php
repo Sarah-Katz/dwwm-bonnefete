@@ -29,8 +29,8 @@ require_once 'Views/navbar.php'; ?>
             </div>
         </div>
         <?php if ($posts) : ?>
-                <!-- Ses postes récents -->
-                <?php require 'Views/post/post.php';?>
+            <!-- Ses postes récents -->
+            <?php require 'Views/post/post.php'; ?>
         <?php endif; ?>
     <?php endforeach; ?>
 <?php else : ?>
@@ -45,4 +45,5 @@ require_once 'Views/navbar.php'; ?>
     </div>
 <?php endif; ?>
 
+<?php require_once 'Views/logButton.php'; ?>
 <?php require_once 'Views/footer.php'; ?>

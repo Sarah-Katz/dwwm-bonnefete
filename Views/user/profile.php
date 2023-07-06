@@ -53,5 +53,6 @@ require_once 'Views/navbar.php';
 <?php endif; ?>
 </div>
 
+<?php require_once 'Views/logButton.php'; ?>
 
 <?php require_once 'Views/footer.php'; ?>

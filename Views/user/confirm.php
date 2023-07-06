@@ -70,7 +70,7 @@ require_once 'Views/navbar.php';
                         </span>
                         <span>Non</span>
                     </a>
-                    <a href="<?= LOCALPATH ?>post/deletepost/<?= $post['ID_post'] ?>" class="button is-success">
+                    <a href="<?= LOCALPATH ?>post/deletePost/<?= $post['ID_post'] ?>" class="button is-success">
                         <span class="icon">
                             <i class="fa-solid fa-check"></i>
                         </span>
@@ -219,4 +219,5 @@ require_once 'Views/navbar.php';
     </div>
 <?php endif; ?>
 
+<?php require_once 'Views/logButton.php'; ?>
 <?php require_once 'Views/footer.php'; ?>

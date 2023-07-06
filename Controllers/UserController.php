@@ -4,17 +4,21 @@ namespace App\Controllers;
 
 require_once 'Models/UserModel.php';
 require_once 'Models/PostModel.php';
+require_once 'Models/LogModel.php';
 
 use App\Models\UserModel;
 use App\Models\PostModel;
+use App\Models\LogModel;
 
 class UserController {
     protected $userModel;
     protected $postModel;
+    protected $logger;
 
     public function __construct() {
         $this->userModel = new UserModel();
         $this->postModel = new PostModel();
+        $this->logger = new LogModel();
     }
 
     public function getRegister() {
@@ -86,6 +90,7 @@ class UserController {
     }
 
     public function getLogout() {
+        $this->logger->createLog(array("type" => "userLogout", "ID_user" => $_SESSION["ID_user"], "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
         session_destroy();
         header('Location: ../user/login');
     }
