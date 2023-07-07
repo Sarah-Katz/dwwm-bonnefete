@@ -23,7 +23,7 @@ ___
 git clone https://github.com/Sarah-Katz/dwwm-bonnefete
 ```
 
-### indiquez les informations du schéma utilisateur : la racine du projet dans le fichier .env
+### indiquez les informations du schéma utilisateur, la racine du projet et les informations de compte gmail dans le fichier .env
 ___
 
 **DB_HOST** - Adresse de la machine hébergeant la BDD
@@ -34,7 +34,7 @@ ___
 
 **DB_PASS** - Le mot de passe de l'utilisateur
 
-**LOCALPATH** - La racine du projet sur la machine (à partir du dossir htdocs __ex: "/bonnefete/"__)
+**LOCALPATH** - La racine du projet sur la machine (à partir du dossier htdocs __ex: "/bonnefete/"__)
 
 Le projet tourne sur un serveur Apache de type XAMPP.
 
