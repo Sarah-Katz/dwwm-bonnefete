@@ -23,11 +23,6 @@ ___
 git clone https://github.com/Sarah-Katz/dwwm-bonnefete
 ```
 
-### Importez le .sql
-___
-
-Vous le trouverez dans le dossier "docs" du projet
-
 ### indiquez les informations du schéma utilisateur : la racine du projet dans le fichier .env
 ___
 
