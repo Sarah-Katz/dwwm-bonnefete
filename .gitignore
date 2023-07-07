@@ -1,3 +1,6 @@
 /vendor/
 /node_modules/
 .env
+img/userUploads/*.jpg
+img/userUploads/*.png
+img/userUploads/*.gif

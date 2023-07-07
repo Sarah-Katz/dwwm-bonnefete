@@ -20,15 +20,17 @@ class User {
     }
 
     public function getUsername() {
-        return $this->username;
+        return ucfirst(strtolower($this->username));
     }
 
     public function getPassword() {
         return $this->password;
     }
 
-    public function getregister_date() {
-        return $this->register_date;
+    public function getRegister_date() {
+        $date = strtotime($this->register_date);
+        $date = date('d/m/Y', $date);
+        return $date;
     }
 
     public function getID_role() {

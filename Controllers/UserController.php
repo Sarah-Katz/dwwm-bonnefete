@@ -3,67 +3,200 @@
 namespace App\Controllers;
 
 require_once 'Models/UserModel.php';
+require_once 'Models/PostModel.php';
+require_once 'Models/LogModel.php';
 
 use App\Models\UserModel;
+use App\Models\PostModel;
+use App\Models\LogModel;
 
 class UserController {
     protected $userModel;
+    protected $postModel;
+    protected $logger;
 
     public function __construct() {
         $this->userModel = new UserModel();
+        $this->postModel = new PostModel();
+        $this->logger = new LogModel();
     }
 
     public function getRegister() {
+        $error = "";
         require_once 'Views/user/register.php';
     }
 
     public function postRegister() {
         $user = $_POST;
-        $message = $this->userModel->createUser($user);
-        echo $message;
-        echo '<a href="../user/login>Se connecter</a>"';
+        $check = $this->userModel->createUser($user);
+        if ($check == "success") {
+            $error = "success";
+            require_once 'Views/user/login.php';
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "reactivated") {
+            $error = "reactivated";
+            require_once 'Views/user/login.php';
+        } elseif ($check == "doubleEmail") {
+            $error = "Email déjà enregistré";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "emailConfirm") {
+            $error = "Les deux emails ne sont pas identiques";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            require_once 'Views/user/register.php';
+        }
+    }
+
+    public function getVerify($key, $email) {
+        $check = $this->userModel->verifyUser($key, $email);
+        if ($check == "success") {
+            $error = "activated";
+            require_once 'Views/user/login.php';
+        } else {
+            $error = "Une erreur s'est produite lors de l'activation de votre compte";
+            require_once 'Views/user/register.php';
+        }
     }
 
     public function getLogin() {
+        $error = "";
         require_once 'Views/user/login.php';
     }
 
     public function postLogin() {
         $user = $_POST;
         $check = $this->userModel->login($user);
-        if ($check) {
+        if ($check === "true") {
             // Rediriger vers le fil des posts
-            echo 'Connecté';
+            header('Location:../post/feed');
+        } elseif ($check === "email") {
+            // Rediriger vers le login avec erreur
+            $error = "Aucun compte trouvé avec cet email";
+            require_once 'Views/user/login.php';
+        } elseif ($check === "inactive") {
+            $error = "Votre compte est désactivé, ou vous n'avez pas encore validé votre email";
+            require_once 'Views/user/login.php';
         } else {
             // Rediriger vers le login avec erreur
-            header('Location: ../user/login');
+            $error = "Erreur d'authentification";
+            require_once 'Views/user/login.php';
         }
     }
 
     public function getLogout() {
+        $this->logger->createLog(array("type" => "userLogout", "ID_user" => $_SESSION["ID_user"], "ID_post" => null, "ID_comment" => null, "ID_admin" => null));
         session_destroy();
         header('Location: ../user/login');
     }
 
     public function postSearch() {
         $searchTerm = $_POST['searchTerm'];
-        var_dump($searchTerm);
         if ($searchTerm) {
             $users = $this->userModel->getUsersByUsername($searchTerm);
             $this->getSearch($users);
         } else {
             $users = $this->userModel->getUsers();
+            $searchTerm = ' ';
             $this->getSearch($users);
         }
     }
 
     public function getSearch($users) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         require_once 'Views/user/search.php';
     }
 
     public function getProfile($userId) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
         $user = $this->userModel->getUserById($userId);
+        $posts = $this->postModel->getPostsByUserId($userId);
         require_once 'Views/user/profile.php';
+    }
+
+    public function getProfileEdit($userId) {
+        // Redirection si non connecté
+        if ($_SESSION['ID_user'] == null) {
+            header('Location: ' . LOCALPATH . 'user/login');
+        }
+        $user = $this->userModel->getUserById($userId);
+        $error = "";
+        require_once 'Views/user/profileEdit.php';
+    }
+
+    public function postProfileEdit($userId) {
+        $user = $_POST;
+        $check = $this->userModel->editUser($user, $userId);
+        if ($check == "success") {
+            header('Location:../profile/' . $userId);
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "emailConfirm") {
+            $error = "Les deux emails ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "emailUsed") {
+            $error = "Email déjà enregistré";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
+    }
+
+    public function postPasswordEdit() {
+        $user = $_POST;
+        $userId = $user['ID_user'];
+        $check = $this->userModel->editPassword($user, $userId);
+        if ($check == "success") {
+            header('Location:../user/profile/' . $userId);
+        } elseif ($check == "regex") {
+            $error = "Le mot de passe doit contenir au moins 8 caractères ainsi qu'au moins un chiffre";
+            require_once 'Views/user/register.php';
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "noVerify") {
+            $error = "Votre ancien mot de passe est incorrect";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
+    }
+
+    public function postPasswordEditAdmin() {
+        $user = $_POST;
+        $userId = $user['ID_user'];
+        $check = $this->userModel->editPasswordAdmin($user, $userId);
+        if ($check == "success") {
+            header('Location:../user/profile/' . $userId);
+        } elseif ($check == "passwordConfirm") {
+            $error = "Les deux mots de passe ne sont pas identiques";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        } elseif ($check == "empty") {
+            $error = "Veuillez remplir tous les champs";
+            $user = $this->userModel->getUserById($userId);
+            require_once 'Views/user/profileEdit.php';
+        }
     }
 
     public function getEdit($userId) {
@@ -79,6 +212,31 @@ class UserController {
 
     public function getDelete($id) {
         $this->userModel->deleteUser($id);
-        header('Location: ../login');
+        if ($_SESSION['ID_role'] == 2 || $_SESSION['ID_role'] == 3) {
+            header('Location:../profile/' . $id);
+        } elseif ($_SESSION['ID_user'] == $id || $_SESSION['ID_role'] == 1) {
+            session_destroy();
+            header('Location: ../login');
+        }
+    }
+
+    public function getCgu() {
+        require_once 'Views/cgu.php';
+    }
+
+    public function getMakeMod($id) {
+        $this->userModel->makeModerator($id);
+        header('Location:../profile/' . $id);
+    }
+
+    public function getDemoteMod($id) {
+        $this->userModel->demoteModerator($id);
+        header('Location:../profile/' . $id);
+    }
+
+    public function postConfirm() {
+        $action = $_POST['action'];
+        $post = $_POST;
+        require_once 'Views/user/confirm.php';
     }
 }
