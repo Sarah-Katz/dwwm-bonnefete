@@ -45,7 +45,6 @@ class CommentModel {
     }
 
     public function updateComment($comment) {
-        var_dump($comment);
         try {
             $query = $this->connection->getPdo()->prepare("UPDATE comments SET message = :message WHERE ID = :ID");
             $query->execute([

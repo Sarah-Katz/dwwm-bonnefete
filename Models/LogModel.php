@@ -25,7 +25,6 @@ class LogModel {
                 ':ID_comment' => $log['ID_comment'],
                 ':ID_admin' => $log['ID_admin']
             ]);
-            var_dump($query);
     }
 
     public function getLogs() {

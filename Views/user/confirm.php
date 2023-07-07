@@ -165,7 +165,6 @@ require_once 'Views/navbar.php';
     </div>
     <!-- Confirmation de modification du mot de passe par un admin-->
 <?php elseif ($action == 'editPasswordAdmin') : ?>
-    <?php var_dump($post); ?>
     <div class="column is-4 is-offset-4">
         <form class="card" action="<?= LOCALPATH ?>user/passwordEditAdmin" method="post">
             <div class="card-content">
