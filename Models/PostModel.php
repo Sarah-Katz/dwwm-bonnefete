@@ -37,7 +37,7 @@ class PostModel {
     }
 
     public function getPosts() {
-        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message, url_image FROM posts ORDER BY post_date DESC");
+        $query = $this->connection->getPdo()->prepare("SELECT ID_post, ID_user, post_date, message, url_image FROM posts ORDER BY ID_post DESC");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, "App\Models\Post");
     }
